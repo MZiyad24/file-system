@@ -6,8 +6,8 @@ using namespace std;
 class SecondaryIndex{
 private:
     fstream file;
-    // map of <char* , linked list >
-
+    // map of <char* , linked list> idx
+    
 public:
     SecondaryIndex(string file){
         this->file.open(file,ios::in | ios::out);
