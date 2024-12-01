@@ -1,0 +1,1 @@
+index | Doctor ID | list of appointment IDs
