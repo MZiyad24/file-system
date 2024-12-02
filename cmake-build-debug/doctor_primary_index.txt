@@ -1,1 +1,1 @@
-index | Doctor ID | offset
+ Doctor ID | offset

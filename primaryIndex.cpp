@@ -17,13 +17,15 @@ public:
         this->file.close();
     }
     
-    //add
+    //1-add
     
-    //delete
+    //2-delete
     
-    //update
+    //3-update
     
-    //print info
+    //4-print info
     
-    //search
+    //5-search
+    
+    // 2 print + delete (primary , sec ) , 2 add , 2 update , 2 search
 };

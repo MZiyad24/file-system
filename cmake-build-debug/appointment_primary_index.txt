@@ -1,1 +1,1 @@
-index | Appointment ID | offset
+ Appointment ID | offset

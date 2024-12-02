@@ -1,1 +1,1 @@
-index | Doctor Name | list of Doctor IDs
+ Doctor Name | list of Doctor IDs
