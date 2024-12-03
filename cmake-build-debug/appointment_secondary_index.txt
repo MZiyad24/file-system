@@ -1,1 +1,3 @@
- Doctor ID | list of appointment IDs
+A001|D001,D002
+A002|D003
+A003|D004,D005

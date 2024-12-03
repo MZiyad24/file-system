@@ -1,1 +1,3 @@
- Doctor Name | list of Doctor IDs
+Dr. Smith|D001,D002,D003
+Dr. Johnson|D004,D005
+Dr. Brown|D006,D007
