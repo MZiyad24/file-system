@@ -1,6 +1,6 @@
 struct AvailableNode {
-    int position; // File position of the deleted record
-    AvailableNode* next; // Pointer to the next available position
+    int position; 
+    AvailableNode* next; 
 
     AvailableNode(int pos) : position(pos), next(nullptr) {}
 };
