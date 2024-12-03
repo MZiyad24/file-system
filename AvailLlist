@@ -1,3 +1,10 @@
+struct AvailableNode {
+    int position; // File position of the deleted record
+    AvailableNode* next; // Pointer to the next available position
+
+    AvailableNode(int pos) : position(pos), next(nullptr) {}
+};
+
 class AvailList {
 private:
     AvailableNode* head; 
