@@ -20,7 +20,7 @@ public:
     }
 
     int get() {
-        if (!head) return -1; // No available positions
+        if (!head) return -1; 
         int position = head->position;
         AvailableNode* temp = head;
         head = head->next;
