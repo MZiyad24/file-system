@@ -78,51 +78,51 @@ public:
     
     //1-add
 
-    // void add_doctor(char* id) {
-    //     if (search_doctor(id) != -1){
-    //         cout << "Doctor already found" ;
-    //         return;
-    //     }
-    //     int offset = doctor_avillist.get() ;
-    //     if (offset == -1){
-    //        file.seekp(0 , ios::end);
-    //        offset = file.tellp() ;
-    //     }
-    //     else{
-    //         file.seekp(offset , ios::beg);
-    //     }
-    //     file.write(id  , 15) ;
-    //     char del = '|' ;
-    //     file.write(&del , 1) ;
-    //     file.write((char*)&offset , sizeof(offset)) ;
-    //     doc_idx.emplace_back(make_pair(id, offset));
-    //     sort(doc_idx.begin(), doc_idx.end(), [](const pair<char*, int>& a, const pair<char*, int>& b) {
-    //         return strcmp(a.first, b.first) < 0;
-    //     });
-    //     save();
-    // }
+    void add_doctor(char* id) {
+        if (search_doctor(id) != -1){
+            cout << "Doctor already found" ;
+            return;
+        }
+        int offset = doctor_avillist.get() ;
+        if (offset == -1){
+           file.seekp(0 , ios::end);
+           offset = file.tellp() ;
+        }
+        else{
+            file.seekp(offset , ios::beg);
+        }
+        file.write(id  , 15) ;
+        char del = '|' ;
+        file.write(&del , 1) ;
+        file.write((char*)&offset , sizeof(offset)) ;
+        doc_idx.emplace_back(make_pair(id, offset));
+        sort(doc_idx.begin(), doc_idx.end(), [](const pair<char*, int>& a, const pair<char*, int>& b) {
+            return strcmp(a.first, b.first) < 0;
+        });
+        save();
+    }
 
-    // void add_appointment(char* id) {
-    //     if (search_appointment(id) != -1){
-    //         cout << "Appointment Found";
-    //         return;
-    //     }
-    //     int offset = appointment_availlist.get() ;
-    //     if (offset == -1){
-    //         file.seekp(0 , ios::end);
-    //         offset = file.tellp() ;
-    //     }
-    //     file.seekp(offset , ios ::beg);
-    //     file.write(id  , 15) ;
-    //     char del = '|' ;
-    //     file.write(&del , 1) ;
-    //     file.write((char*)&offset , sizeof(offset)) ;
-    //     app_idx.emplace_back(make_pair(id, offset));
-    //     sort(app_idx.begin(), app_idx.end(), [](const pair<char*, int>& a, const pair<char*, int>& b) {
-    //         return strcmp(a.first, b.first) < 0;
-    //     });
-    //     save();
-    // }
+    void add_appointment(char* id) {
+        if (search_appointment(id) != -1){
+            cout << "Appointment Found";
+            return;
+        }
+        int offset = appointment_availlist.get() ;
+        if (offset == -1){
+            file2.seekp(0 , ios::end);
+            offset = file2.tellp() ;
+        }
+        file2.seekp(offset , ios ::beg);
+        file2.write(id  , 15) ;
+        char del = '|' ;
+        file2.write(&del , 1) ;
+        file2.write((char*)&offset , sizeof(offset)) ;
+        app_idx.emplace_back(make_pair(id, offset));
+        sort(app_idx.begin(), app_idx.end(), [](const pair<char*, int>& a, const pair<char*, int>& b) {
+            return strcmp(a.first, b.first) < 0;
+        });
+        save();
+    }
 
 
 
@@ -198,3 +198,4 @@ public:
     }
    
 };
+
