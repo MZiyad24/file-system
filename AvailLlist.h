@@ -1,18 +1,28 @@
+//
+// Created by ziad on 12/3/2024.
+//
+
+#ifndef FILES_ASSIGNMENT_AVAILIST_H
+#define FILES_ASSIGNMENT_AVAILIST_H
+
+
+using namespace std ;
+#include <iostream>
 struct AvailableNode {
-    int position; 
-    AvailableNode* next; 
+    int position;
+    AvailableNode* next;
 
     AvailableNode(int pos) : position(pos), next(nullptr) {}
 };
 
-class AvailList {
+class AvaiList {
 private:
-    AvailableNode* head; 
+    AvailableNode* head;
 
 public:
-    AvailList() : head(nullptr) {}
+    AvaiList() : head(nullptr) {}
 
-    ~AvailList() {
+    ~AvaiList() {
         while (head) {
             AvailableNode* temp = head;
             head = head->next;
@@ -27,7 +37,7 @@ public:
     }
 
     int get() {
-        if (!head) return -1; 
+        if (!head) return -1;
         int position = head->position;
         AvailableNode* temp = head;
         head = head->next;
@@ -45,3 +55,7 @@ public:
         cout << "NULL\n";
     }
 };
+
+
+
+#endif //FILES_ASSIGNMENT_AVAILIST_H
