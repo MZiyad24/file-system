@@ -1,1 +1,1 @@
-ID (PK) | Name | Address
+(length) | ID (PK) | Name | Address
