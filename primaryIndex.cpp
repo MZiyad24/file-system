@@ -5,22 +5,77 @@ using namespace std;
 
 class PrimaryIndex{
 private:
-    fstream file;
-    map<char* , int> idx;
+    fstream file,file2;
+    vector<pair<char*,int>>doc_idx;
+    vector<pair<char*,int>>app_idx;
     
-
+    void save(){  // don't forget using this after each function
+        file.seekp(0,ios::beg);
+        file2.seekp(0,ios::beg);
+        for(int i=0;i<(int)doc_idx.size();i++)
+        {
+            file.write((char*)&doc_idx[i].first,sizeof(doc_idx[i].first));
+            char del = '|';
+            file.write((char*)&del,sizeof(del));
+            file.write((char*)&doc_idx[i].second,sizeof(doc_idx[i].second));
+        }
+        for(int i=0;i<(int)app_idx.size();i++)
+        {
+            file.write((char*)&app_idx[i].first,sizeof(app_idx[i].first));
+            char del = '|';
+            file.write((char*)&del,sizeof(del));
+            file.write((char*)&app_idx[i].second,sizeof(app_idx[i].second));
+        }
+    }
 public:
-    PrimaryIndex(const string& filename){
-        file.open(filename,ios::in | ios::out);
-        assert(!file.is_open());
+    PrimaryIndex(){
+        file.open("doctor_primary_index.txt",ios::in | ios::out);
+        if(file.is_open()) {
+            char entry[15];
+            int offset;
+            file.seekg(0, ios::beg);
+            file.seekp(0, ios::beg);
+            while (file.good()) {
+                file.read((char *) &entry, sizeof(entry));
+                file.ignore(1);
+                file.read((char *) &offset, sizeof(offset));
+                doc_idx.push_back(make_pair(entry, offset));
+            }
+        }
+        assert(file.is_open());
+        file2.open("appointment_primary_index.txt",ios::in|ios::out);
+        if(file2.is_open()) {
+            char entry[15];
+            int offset;
+            file2.seekg(0, ios::beg);
+            file2.seekp(0, ios::beg);
+            while (file2.good()) {
+                file2.read((char *) &entry, sizeof(entry));
+                file2.ignore(1);
+                file2.read((char *) &offset, sizeof(offset));
+                app_idx.push_back(make_pair(entry, offset));
+            }
+        }
+        assert(file2.is_open());
+    }
+    
+    vector<pair<char*,int>> get_doc_idx()
+    {
+        return doc_idx;
     }
     
     
-    ~PrimaryIndex(){
-        this->file.close();
+    vector<pair<char*,int>> get_app_idx()
+    {
+        return app_idx;
     }
+    
     
     //1-add
+    void add_doctor(char*id , int offset){}
+    
+    void add_appointment(char * id , int offset){}
+    
     
     //2-delete
 //    void Delete(char*key)
@@ -69,12 +124,28 @@ public:
 //
 //        }
 //    }
-    
-    //3-update
-    
+
     //4-print info
+    void print_doctor(){
+    
+    }
+    
+    void print_app(){
+    
+    }
     
     //5-search
+    int search_doctor(char*id){  // return offset
     
-    // 2 print + delete (primary , sec ) , 2 add , 2 update , 2 search
+    }
+    
+    int search_appointment(char*id){  // return offset
+    
+    }
+    
+    ~PrimaryIndex(){
+        if(file.is_open())this->file.close();
+        if(file2.is_open())this->file2.close();
+    }
+   
 };
