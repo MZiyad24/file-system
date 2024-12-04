@@ -37,7 +37,7 @@ public:
     }
 
     int get() {
-        if (!head) return -1;
+        if (!head) return -1; // Empty
         int position = head->position;
         AvailableNode* temp = head;
         head = head->next;

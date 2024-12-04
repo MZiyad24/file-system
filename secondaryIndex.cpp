@@ -97,7 +97,7 @@ public:
     const vector<pair<string, vector<string>>>& getDoctorIndex() const {
         return doctorIdx;
     }
-    void addNewDoctor(string doctorName , string Id) {
+    void addNewDoctor(string doctorName , string Id ) {
 
         auto it = find_if(doctorIdx.begin(), doctorIdx.end(),
                           [&doctorName](const pair<string, vector<string>>& entry) {
@@ -106,17 +106,12 @@ public:
 
         if (it != doctorIdx.end()) {
             it->second.push_back(Id);
-        } else {
-            int offset = Doc_Avail.get();
-            if (offset == -1){
-                doctorIdx.emplace_back(doctorName, vector<string>{Id});
-
-            }
-            else
-            {
-                doctorIdx[offset] = make_pair(doctorName , vector<string>{Id});
-            }
         }
+        else
+        {
+                doctorIdx.emplace_back(make_pair(doctorName , vector<string>{Id}));
+        }
+
         sort(doctorIdx.begin(), doctorIdx.end(), [](const pair<string, vector<string>>& a, const pair<string, vector<string>>& b) {
             return a.first < b.first;
         });
@@ -135,17 +130,13 @@ public:
         });
         if (it != appointmentIdx.end()) {
             it->second.push_back(AppointmentId);
-        } else {
-            int offset = Doc_Avail.get();
-            if (offset == -1){
-                appointmentIdx.emplace_back(DoctorId, vector<string>{AppointmentId});
-
-            }
-            else
-            {
-                appointmentIdx[offset] = make_pair(DoctorId , vector<string>{AppointmentId});
-            }
         }
+
+        else
+        {
+            appointmentIdx.emplace_back(make_pair(DoctorId , vector<string>{AppointmentId}));
+        }
+
         sort(appointmentIdx.begin(), appointmentIdx.end(), [](const pair<string, vector<string>>& a, const pair<string, vector<string>>& b) {
             return a.first < b.first;
         });

@@ -370,4 +370,5 @@ CMakeFiles/files_assignment.dir/doctor.cpp.obj: \
  C:/Program\ Files/JetBrains/CLion\ 2024.1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/stacktrace \
  C:/Program\ Files/JetBrains/CLion\ 2024.1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/stdfloat \
  C:\Users\ziad\CLionProjects\file-system\primaryIndex.cpp \
+ C:\Users\ziad\CLionProjects\file-system\AvaiList.h \
  C:\Users\ziad\CLionProjects\file-system\secondaryIndex.cpp
