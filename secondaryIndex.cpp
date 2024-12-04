@@ -153,6 +153,46 @@ public:
     // deletApponitment()  // do not forget saveToFile() using avail List
     //  deletDoctor()  // do not forget saveToFile()   using avail List
     // updateDoctorName() // do not forget saveToFile()
+    void updateDoctorName(string id,string newname,string oldname) {
+        vector<pair<string,vector<string>>>idxdata;
+        loadFileToVector(doctorFile, idxdata);//load the index file to vector
+        for (auto it = idxdata.begin(); it != idxdata.end(); ++it) {
+            if (it->first == oldname) {
+                if (it->second.size() == 1) { // Check if there's only one ID
+                    idxdata.erase(it); // Remove the entire entry
+                    break;
+                } else {
+                    // Loop through IDs to find and delete the specific one
+                    for (auto idIt = it->second.begin(); idIt != it->second.end(); ++idIt) {
+                        if (*idIt == id) {
+                            it->second.erase(idIt); // Remove the ID is assosiated
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            else {
+                cout<<"the doctor not found\n";
+                return;
+            }
+
+        }
+        bool newnameExists = false;
+        for (auto &entry: idxdata) {
+            if (entry.first == newname) {
+                entry.second.push_back(id); // Add id to the existing newname
+                newnameExists = true;
+                break;
+            }
+        }
+
+        // if newname doesn't existit will create a new entry
+        if (!newnameExists) {
+            idxdata.push_back({newname, {id}});
+        }
+        saveToFile(doctorFile, idxdata);// save it back to doctor index file
+    }
 
 
       vector<int> search_by_doctor_name(const string &name)

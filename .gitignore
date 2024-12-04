@@ -28,9 +28,11 @@
 # IDE-specific files
 # CLion
 .idea/
-cmake-build-debug/
 cmake-build-release/
 cmake-build-*
+cmake-build-debug/*
+!cmake-build-debug/*.txt
+
 
 # Visual Studio
 .vscode/
