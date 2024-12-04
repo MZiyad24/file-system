@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/files_assignment.dir/main.cpp.o CMakeFiles/files_assignment.dir/appointment.cpp.o CMakeFiles/files_assignment.dir/doctor.cpp.o CMakeFiles/files_assignment.dir/primaryIndex.cpp.o CMakeFiles/files_assignment.dir/secondaryIndex.cpp.o CMakeFiles/files_assignment.dir/menu.cpp.o -o files_assignment
