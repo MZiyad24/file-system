@@ -14,7 +14,7 @@ private:
     SecondaryIndex sx;
 
 public:
-    Appointment(const string& prim_filename="appointment_primary_index.txt",const string& sec_filename="appointment_secondary_index.txt"):px(prim_filename),sx(sec_filename){}
+    Appointment(const string& prim_filename="appointment_primary_index.txt",const string& sec_filename="appointment_secondary_index.txt"):px(),sx(){}
     
     void set_id(char* id){
         assert(sizeof(id)<sizeof(this->id));

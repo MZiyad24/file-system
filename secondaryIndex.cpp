@@ -5,13 +5,16 @@
 #include <vector>
 #include <algorithm>  
 using namespace std;
-
+#include "AvaiList.h"
 class SecondaryIndex {
 private:
     vector<pair<string, vector<string>>> appointmentIdx; 
     vector<pair<string, vector<string>>> doctorIdx;       
     const string appointmentFile = "appointment_secondary_index.txt";
     const string doctorFile = "doctor_secondary_index.txt";
+    AvaiList Doc_Avail ;
+    AvaiList Appointment_Avail ;
+
 
     void loadFileToVector(const string& filename, vector<pair<string, vector<string>>>& indexVec) {
         ifstream file(filename);
@@ -94,12 +97,68 @@ public:
     const vector<pair<string, vector<string>>>& getDoctorIndex() const {
         return doctorIdx;
     }
-    // addNewDoctor() // do not forget saveToFile()
-    // addNewApponitment() // do not forget saveToFile()
+    void addNewDoctor(string doctorName , string Id) {
+
+        auto it = find_if(doctorIdx.begin(), doctorIdx.end(),
+                          [&doctorName](const pair<string, vector<string>>& entry) {
+                              return entry.first == doctorName;
+                          });
+
+        if (it != doctorIdx.end()) {
+            it->second.push_back(Id);
+        } else {
+            int offset = Doc_Avail.get();
+            if (offset == -1){
+                doctorIdx.emplace_back(doctorName, vector<string>{Id});
+
+            }
+            else
+            {
+                doctorIdx[offset] = make_pair(doctorName , vector<string>{Id});
+            }
+        }
+        sort(doctorIdx.begin(), doctorIdx.end(), [](const pair<string, vector<string>>& a, const pair<string, vector<string>>& b) {
+            return a.first < b.first;
+        });
+
+
+        saveToFile(doctorFile , doctorIdx);
+
+    }
+
+    // do not forget saveToFile()
+    void addNewApponitment(string DoctorId , string AppointmentId ){
+        auto it = find_if(appointmentIdx.begin(), appointmentIdx.end(),
+                          [&DoctorId](const pair<string, vector<string>>& entry) {
+                              return entry.first == DoctorId;
+
+        });
+        if (it != appointmentIdx.end()) {
+            it->second.push_back(AppointmentId);
+        } else {
+            int offset = Doc_Avail.get();
+            if (offset == -1){
+                appointmentIdx.emplace_back(DoctorId, vector<string>{AppointmentId});
+
+            }
+            else
+            {
+                appointmentIdx[offset] = make_pair(DoctorId , vector<string>{AppointmentId});
+            }
+        }
+        sort(appointmentIdx.begin(), appointmentIdx.end(), [](const pair<string, vector<string>>& a, const pair<string, vector<string>>& b) {
+            return a.first < b.first;
+        });
+
+
+        saveToFile(appointmentFile , appointmentIdx);
+
+
+    } // do not forget saveToFile()
     // deletApponitment()  // do not forget saveToFile() using avail List
     //  deletDoctor()  // do not forget saveToFile()   using avail List
     // updateDoctorName() // do not forget saveToFile()
-    // searchByName() 
+    int searchByName(string DoctorName) ;
     //  make for loop on matching Ids = this name and call searchById() for primary index
 
 

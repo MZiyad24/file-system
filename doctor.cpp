@@ -14,7 +14,7 @@ private:
     SecondaryIndex sx;
 
 public:
-    Doctor(const string& prim_filename="doctor_primary_index.txt",const string& sec_filename="doctor_secondary_index.txt"):px(),sx(sec_filename){}
+    Doctor(const string& prim_filename="doctor_primary_index.txt",const string& sec_filename="doctor_secondary_index.txt"):px() , sx(){}
     
     void set_id(char* id){
         assert(sizeof(id)<sizeof(this->id));
