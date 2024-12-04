@@ -164,12 +164,59 @@ public:
     }
     
     void print_app();
-    
+    // Awad test push
     //5-search
-    int search_doctor(char*id); // return offset
+    int search_doctor(const char *id)
+    {
+        int start = 0; // binary search
+        int end = doc_idx.size() - 1;
 
-    
-    int search_appointment(char*id) ;// return offse
+        while (start <= end)
+        {
+            int mid = (start + end) / 2;
+
+            if (strcmp(doc_idx[mid].first, id) == 0)
+            {
+                return doc_idx[mid].second; // offset
+            }
+            else if (strcmp(doc_idx[mid].first, id) < 0)
+            {
+                start = mid + 1;
+            }
+            else
+            {
+                end = mid - 1;
+            }
+        }
+
+        return -1;
+    }
+
+    int search_appointment(const char *id)
+    {
+        int start = 0;                
+        int end = app_idx.size() - 1; 
+
+        while (start <= end)
+        {
+            int mid = (start + end) / 2; 
+
+            if (strcmp(app_idx[mid].first, id) == 0)
+            {
+                return app_idx[mid].second; //  offset
+            }
+            else if (strcmp(app_idx[mid].first, id) < 0)
+            {
+                start = mid + 1; 
+            }
+            else
+            {
+                end = mid - 1; 
+            }
+        }
+
+        return -1; 
+    }
     
     ~PrimaryIndex(){
         if(file.is_open())this->file.close();

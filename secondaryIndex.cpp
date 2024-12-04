@@ -3,9 +3,11 @@
 #include <string>
 #include <sstream>
 #include <vector>
-#include <algorithm>  
-using namespace std;
+#include <algorithm>
+#include "primaryIndex.cpp"
 #include "AvaiList.h"
+using namespace std;
+
 class SecondaryIndex {
 private:
     vector<pair<string, vector<string>>> appointmentIdx; 
@@ -14,6 +16,8 @@ private:
     const string doctorFile = "doctor_secondary_index.txt";
     AvaiList Doc_Avail ;
     AvaiList Appointment_Avail ;
+    PrimaryIndex primaryIndex;
+
 
 
     void loadFileToVector(const string& filename, vector<pair<string, vector<string>>>& indexVec) {
@@ -149,8 +153,84 @@ public:
     // deletApponitment()  // do not forget saveToFile() using avail List
     //  deletDoctor()  // do not forget saveToFile()   using avail List
     // updateDoctorName() // do not forget saveToFile()
-    int searchByName(string DoctorName) ;
-    //  make for loop on matching Ids = this name and call searchById() for primary index
+
+
+      vector<int> search_by_doctor_name(const string &name)
+    {
+        int start = 0;                  
+        int end = doctorIdx.size() - 1; 
+
+        while (start <= end)
+        {
+            int mid = (start + end) / 2; 
+
+            if (doctorIdx[mid].first == name)
+            {
+                vector<string> doctorIDs = doctorIdx[mid].second;
+                vector<int> offsets;                              
+
+                
+                for (const string &doctorID : doctorIDs)
+                {
+                    int offset = primaryIndex.search_doctor(doctorID.c_str()); 
+                    if (offset != -1)
+                    {
+                        offsets.push_back(offset); 
+                    }
+                }
+
+                return offsets; 
+            }
+            else if (doctorIdx[mid].first < name)
+            {
+                start = mid + 1; 
+            }
+            else
+            {
+                end = mid - 1; 
+            }
+        }
+
+        return {}; 
+    }
+
+    vector<int> search_by_appointment_id(const string &appointmentID)
+    {
+        int start = 0;                       
+        int end = appointmentIdx.size() - 1; 
+
+        while (start <= end)
+        {
+            int mid = (start + end) / 2; 
+            if (appointmentIdx[mid].first == appointmentID)
+            {
+                vector<string> doctorIDs = appointmentIdx[mid].second; 
+                vector<int> offsets;                                  
+
+                
+                for (const string &doctorID : doctorIDs)
+                {
+                    int offset = primaryIndex.search_doctor(doctorID.c_str()); 
+                    if (offset != -1)
+                    {
+                        offsets.push_back(offset); 
+                    }
+                }
+
+                return offsets; // Return offsets
+            }
+            else if (appointmentIdx[mid].first < appointmentID)
+            {
+                start = mid + 1; 
+            }
+            else
+            {
+                end = mid - 1; 
+            }
+        }
+
+        return {}; 
+    }
 
 
 
