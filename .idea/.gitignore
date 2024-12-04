@@ -6,3 +6,21 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+# additional files
+# CLion files
+.idea/
+cmake-build-*/  # Ignore all build directories
+*.iml
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+
+# Logs
+*.log
+
+# Operating system files
+.DS_Store
+Thumbs.db
+

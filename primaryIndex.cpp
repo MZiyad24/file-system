@@ -13,7 +13,7 @@ private:
     AvaiList doctor_avillist ;
     AvaiList appointment_availlist ;
 
-    
+    void loadFile()
     void save(){  // don't forget using this after each function
         file.seekp(0,ios::beg);
         file2.seekp(0,ios::beg);

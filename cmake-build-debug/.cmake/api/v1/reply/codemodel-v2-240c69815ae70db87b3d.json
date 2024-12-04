@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "files_assignment::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-files_assignment-Debug-daf441d18913bdc5da22.json",
+					"jsonFile" : "target-files_assignment-Debug-703ad4f11c23b1557e69.json",
 					"name" : "files_assignment",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/ziad/CLionProjects/file-system/cmake-build-debug",
-		"source" : "C:/Users/ziad/CLionProjects/file-system"
+		"build" : "C:/Users/mziya/OneDrive/Desktop/files-assignment/cmake-build-debug",
+		"source" : "C:/Users/mziya/OneDrive/Desktop/files-assignment"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 6
+		"minor" : 4
 	}
 }
