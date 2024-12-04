@@ -8,13 +8,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/ziad/CLionProjects/file-system/AvaiList.cpp" "CMakeFiles/files_assignment.dir/AvaiList.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/AvaiList.cpp.obj.d"
-  "C:/Users/ziad/CLionProjects/file-system/appointment.cpp" "CMakeFiles/files_assignment.dir/appointment.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/appointment.cpp.obj.d"
-  "C:/Users/ziad/CLionProjects/file-system/doctor.cpp" "CMakeFiles/files_assignment.dir/doctor.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/doctor.cpp.obj.d"
-  "C:/Users/ziad/CLionProjects/file-system/main.cpp" "CMakeFiles/files_assignment.dir/main.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/main.cpp.obj.d"
-  "C:/Users/ziad/CLionProjects/file-system/menu.cpp" "CMakeFiles/files_assignment.dir/menu.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/menu.cpp.obj.d"
-  "C:/Users/ziad/CLionProjects/file-system/primaryIndex.cpp" "CMakeFiles/files_assignment.dir/primaryIndex.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/primaryIndex.cpp.obj.d"
-  "C:/Users/ziad/CLionProjects/file-system/secondaryIndex.cpp" "CMakeFiles/files_assignment.dir/secondaryIndex.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/secondaryIndex.cpp.obj.d"
+  "C:/Users/dell/CLionProjects/file-system/AvaiList.cpp" "CMakeFiles/files_assignment.dir/AvaiList.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/AvaiList.cpp.obj.d"
+  "C:/Users/dell/CLionProjects/file-system/appointment.cpp" "CMakeFiles/files_assignment.dir/appointment.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/appointment.cpp.obj.d"
+  "C:/Users/dell/CLionProjects/file-system/doctor.cpp" "CMakeFiles/files_assignment.dir/doctor.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/doctor.cpp.obj.d"
+  "C:/Users/dell/CLionProjects/file-system/main.cpp" "CMakeFiles/files_assignment.dir/main.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/main.cpp.obj.d"
+  "C:/Users/dell/CLionProjects/file-system/menu.cpp" "CMakeFiles/files_assignment.dir/menu.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/menu.cpp.obj.d"
+  "C:/Users/dell/CLionProjects/file-system/primaryIndex.cpp" "CMakeFiles/files_assignment.dir/primaryIndex.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/primaryIndex.cpp.obj.d"
+  "C:/Users/dell/CLionProjects/file-system/secondaryIndex.cpp" "CMakeFiles/files_assignment.dir/secondaryIndex.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/secondaryIndex.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

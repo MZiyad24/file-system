@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/ziad/CLionProjects/file-system/cmake-build-debug",
-		"source" : "C:/Users/ziad/CLionProjects/file-system"
+		"build" : "C:/Users/dell/CLionProjects/file-system/cmake-build-debug",
+		"source" : "C:/Users/dell/CLionProjects/file-system"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 6
+		"minor" : 7
 	}
 }
