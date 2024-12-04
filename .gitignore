@@ -1,0 +1,68 @@
+# Compiled object files
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic Libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static Libraries
+*.lib
+*.a
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Debug files
+*.dSYM/
+*.stackdump
+*.core
+
+# IDE-specific files
+# CLion
+.idea/
+cmake-build-debug/
+cmake-build-release/
+cmake-build-*
+
+# Visual Studio
+.vscode/
+*.code-workspace
+.vs/
+*.user
+*.suo
+*.VC.db
+
+# Xcode
+*.xcworkspace/
+*.xcuserstate
+*.xcodeproj/
+
+# Makefile and CMake files
+Makefile
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+build/
+dist/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*~
+
+# Package managers (if any)
+node_modules/
+package-lock.json
+
+# OS-generated files
+.DS_Store
+Thumbs.db
