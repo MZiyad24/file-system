@@ -12,6 +12,7 @@ private:
     char address [30];
     PrimaryIndex px;
     SecondaryIndex sx;
+    AvaiList avl;
 
 public:
     Doctor(const string& prim_filename="doctor_primary_index.txt",const string& sec_filename="doctor_secondary_index.txt"):px() , sx(){}
@@ -41,9 +42,40 @@ public:
     }
     
     //add
+    void add(char* id, char * name, char* address){
+        /*
+         * Check data size integrity
+         * Check AVAIL list
+         * if(true)
+         * {
+         *      get offset from AVAIL list
+         *      pop AVAIL LIST
+         * }
+         * else
+         * {
+         *      get offset from data file
+         *      add doctor to doctor vector
+         *      save file
+         *      add doctor to primary index
+         *      add doctor to secondary index
+         * }
+         * */
+    }
     
     //delete
-    
+    void Delete(char * id){
+        /*
+         * char * offset = px.delete(id);
+         * if( offset != (char*)'-1')
+         * {
+         *      search in doctor file for the offset
+         *      get the name and mark as deleted
+         *      use the name and id to delete from secondary idx
+         *      add the offset to the AVAIL list
+         *      update doctor vector
+         * }
+         * */
+    }
     //update
     void updata_docName(char* ID,char* newname) {
         string oldname = this->name;
@@ -113,6 +145,17 @@ public:
     }
     
     //print info
+    void print(){
+        /*
+         * loop the vector and print all the doctor data
+         * */
+    }
     
     //search
+    void search(char * id)
+    {
+        /*
+         *  Binary search the vector for the id and print the doctor info
+         * */
+    }
 };

@@ -12,6 +12,7 @@ private:
     char doctor_id [15];
     PrimaryIndex px;
     SecondaryIndex sx;
+    AvaiList avl;
 
 public:
     Appointment(const string& prim_filename="appointment_primary_index.txt",const string& sec_filename="appointment_secondary_index.txt"):px(),sx(){}
@@ -41,8 +42,40 @@ public:
 //    }
     
     //add
+    void add(char* id, char * date, char* doctor_id){
+        /*
+         * Check app id from primary index search
+         * Check AVAIL list
+         * if(true)
+         * {
+         *      get offset from AVAIL list
+         *      pop AVAIL LIST
+         * }
+         * else
+         * {
+         *      get offset from data file
+         *      add app to app vector
+         *      save file
+         *      add app to primary index
+         *      add app to secondary index
+         * }
+         * */
+    }
     
     //delete
+    void Delete(char * id){
+        /*
+         * char * offset = px.delete(id);
+         * if( offset != (char*)'-1')
+         * {
+         *      search in appointment file for the offset
+         *      get the doc_id and mark as deleted
+         *      use the doc_id and id to delete from secondary idx
+         *      add the offset to the AVAIL list
+         *      update appointment victor
+         * }
+         * */
+    }
     
     //update
 
@@ -116,6 +149,17 @@ public:
     }
     
     //print info
+    void print (){
+        /*
+        * loop the vector and print all the appointment data
+        * */
+    }
     
     //search
+    void search(char * id)
+    {
+        /*
+         *  Binary search the vector for the id and print the appointment info
+         * */
+    }
 };

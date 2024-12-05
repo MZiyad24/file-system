@@ -10,8 +10,8 @@ private:
     fstream file,file2;
     vector<pair<char*,int>>doc_idx;
     vector<pair<char*,int>>app_idx;
-    AvaiList doctor_avillist ;
-    AvaiList appointment_availlist ;
+//    AvaiList doctor_avillist ;
+//    AvaiList appointment_availlist ;
 
     void loadFile(){
         file.open("doctor_primary_index.txt",ios::in | ios::out);
@@ -117,6 +117,85 @@ public:
     
     
     //2-delete
+    char* delete_doctor(char* id)  // returning offset as char *
+    {
+        char* offset = (char*)search_doctor(id);
+        if( offset!=(char*)'-1')
+        {
+            int start = 0; // binary search
+            int end = doc_idx.size() - 1;
+    
+            while (start <= end)
+            {
+                int mid = (start + end) / 2;
+        
+                if (strcmp(doc_idx[mid].first, id) == 0)
+                {
+                    if(doc_idx[0].first!=id)
+                    {
+                        doc_idx[mid].first=(char*)"\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF";
+                        sort(doc_idx.begin(),doc_idx.end());
+                    }
+                    doc_idx.pop_back();
+                    save();
+                    return offset;
+                }
+                else if (strcmp(doc_idx[mid].first, id) < 0)
+                {
+                    start = mid + 1;
+                }
+                else
+                {
+                    end = mid - 1;
+                }
+            }
+        }
+        else
+        {
+            cerr<<"doctor doesn't exist!\n";
+            return offset;
+        }
+    }
+    
+    char* delete_appointment(char* id)  // returning offset as char *
+    {
+        char* offset = (char*)search_appointment(id);
+        if( offset!=(char*)'-1')
+        {
+            int start = 0; // binary search
+            int end = app_idx.size() - 1;
+    
+            while (start <= end)
+            {
+                int mid = (start + end) / 2;
+        
+                if (strcmp(app_idx[mid].first, id) == 0)
+                {
+                    if(app_idx[0].first!=id)
+                    {
+                        app_idx[mid].first=(char*)"\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF";
+                        sort(app_idx.begin(),app_idx.end());
+                    }
+                    app_idx.pop_back();
+                    save();
+                    return offset;
+                }
+                else if (strcmp(app_idx[mid].first, id) < 0)
+                {
+                    start = mid + 1;
+                }
+                else
+                {
+                    end = mid - 1;
+                }
+            }
+        }
+        else
+        {
+            cerr<<"Appointment doesn't exist!\n";
+            return offset;
+        }
+    }
 //    void Delete(char*key)
 //    {
 //        int offset;
@@ -166,13 +245,24 @@ public:
 
     //4-print info
     void print_doctor(){
-    
+        for(const auto & entry : doc_idx)
+        {
+            cout<<"Doctor's ID: "<<entry.first
+                <<" Offset: "<<entry.second<<"\n";
+        }
+        
     }
     
-    void print_app();
-    // Awad test push
+    void print_app(){
+        for(const auto & entry : app_idx)
+        {
+            cout<<"Doctor's ID: "<<entry.first
+                <<" Offset: "<<entry.second<<"\n";
+        }
+    };
+    
     //5-search
-    int search_doctor(const char *id)
+    int search_doctor(const char *id)  // returning offset as int
     {
         int start = 0; // binary search
         int end = doc_idx.size() - 1;
