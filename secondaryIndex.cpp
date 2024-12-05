@@ -234,32 +234,20 @@ public:
         return {}; 
     }
 
-    vector<int> search_by_appointment_id(const string &appointmentID)
+    vector<string> search_by_doctor_id(const string &doctorID)
     {
         int start = 0;                       
-        int end = appointmentIdx.size() - 1; 
+        int end = (int)appointmentIdx.size() - 1;
 
         while (start <= end)
         {
             int mid = (start + end) / 2; 
-            if (appointmentIdx[mid].first == appointmentID)
+            if (appointmentIdx[mid].first == doctorID)
             {
-                vector<string> doctorIDs = appointmentIdx[mid].second; 
-                vector<int> offsets;                                  
-
-                
-                for (const string &doctorID : doctorIDs)
-                {
-                    int offset = primaryIndex.search_doctor(doctorID.c_str()); 
-                    if (offset != -1)
-                    {
-                        offsets.push_back(offset); 
-                    }
-                }
-
-                return offsets; // Return offsets
+                vector<string> appIDs = appointmentIdx[mid].second;
+                return appIDs;
             }
-            else if (appointmentIdx[mid].first < appointmentID)
+            else if (appointmentIdx[mid].first < doctorID)
             {
                 start = mid + 1; 
             }

@@ -63,7 +63,7 @@ public:
     }
     
     //delete
-    void Delete(char * id){
+    void Delete(string id){     ////////////// cast all strings to char * !!!!!!!!!!!!!!!!!!!!!!!!!!!!
         /*
          * char * offset = px.delete(id);
          * if( offset != (char*)'-1')
@@ -72,8 +72,24 @@ public:
          *      get the doc_id and mark as deleted
          *      use the doc_id and id to delete from secondary idx
          *      add the offset to the AVAIL list
-         *      update appointment victor
+         *      update appointment vector
          * }
+         * */
+    }
+    void Delete_by_Doctor(char*doctor_id){
+        vector<string> apIDs;
+        apIDs=sx.search_by_doctor_id(doctor_id);
+        if((int)apIDs.size()>0)
+        {
+            for(const auto &entry:apIDs)
+            {
+                Delete(entry);
+            }
+        }
+        /*
+         * delete by sec index
+         * return offset use it in primary
+         * delete from data file
          * */
     }
     

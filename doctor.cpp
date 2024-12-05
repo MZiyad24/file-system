@@ -73,6 +73,7 @@ public:
          *      use the name and id to delete from secondary idx
          *      add the offset to the AVAIL list
          *      update doctor vector
+         *      call search by doctor to the appointment
          * }
          * */
     }
