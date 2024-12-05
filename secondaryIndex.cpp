@@ -53,6 +53,7 @@ private:
         }
 
         for (const auto& entry : indexVec) {
+            if(entry.second.empty()) continue;
             file << entry.first << "|";  // Write the key
             for (size_t i = 0; i < entry.second.size(); ++i) {
                 file << entry.second[i];  // Write the values
@@ -194,32 +195,20 @@ public:
         saveToFile(doctorFile, idxdata);// save it back to doctor index file
     }
 
-
-      vector<int> search_by_doctor_name(const string &name)
+    // at doctor_secondary_index
+    vector<string> search_by_doctor_name(const string &name)
     {
         int start = 0;                  
         int end = doctorIdx.size() - 1; 
-
+        vector<string> doctorIDs;
         while (start <= end)
         {
             int mid = (start + end) / 2; 
 
             if (doctorIdx[mid].first == name)
             {
-                vector<string> doctorIDs = doctorIdx[mid].second;
-                vector<int> offsets;                              
-
-                
-                for (const string &doctorID : doctorIDs)
-                {
-                    int offset = primaryIndex.search_doctor(doctorID.c_str()); 
-                    if (offset != -1)
-                    {
-                        offsets.push_back(offset); 
-                    }
-                }
-
-                return offsets; 
+                doctorIDs = doctorIdx[mid].second;
+                break;
             }
             else if (doctorIdx[mid].first < name)
             {
@@ -230,12 +219,16 @@ public:
                 end = mid - 1; 
             }
         }
+        // return vector of doctor IDs
+        return doctorIDs;
 
         return {}; 
     }
 
+    // at appointment_secondary_index 
     vector<string> search_by_doctor_id(const string &doctorID)
     {
+        vector<string> appIDs;
         int start = 0;                       
         int end = (int)appointmentIdx.size() - 1;
 
@@ -244,8 +237,8 @@ public:
             int mid = (start + end) / 2; 
             if (appointmentIdx[mid].first == doctorID)
             {
-                vector<string> appIDs = appointmentIdx[mid].second;
-                return appIDs;
+                appIDs = appointmentIdx[mid].second;
+                break;
             }
             else if (appointmentIdx[mid].first < doctorID)
             {
@@ -256,10 +249,55 @@ public:
                 end = mid - 1; 
             }
         }
-
-        return {}; 
+        return appIDs;
     }
+    
+    // at doctor_secondary_index
+    // this function return true if successfully deleted , false if not found
+    bool delete_doctor_name(const string &name ,const string &doctorID )
+    {
+        vector<string>matchedIDs = search_by_doctor_name(name);
+        if(matchedIDs.empty())
+        {
+            return false;
+        }
+        // sequential search 
+        auto it = remove(matchedIDs.begin(), matchedIDs.end(), doctorID);
+        matchedIDs.erase(it, matchedIDs.end());
 
 
+        auto idxIt = std::find_if(doctorIdx.begin(), doctorIdx.end(),
+        [&name](const std::pair<std::string, std::vector<std::string>>& entry) {
+            return entry.first == name;
+        });
+        idxIt->second = matchedIDs;
+
+        // sucess delete
+        saveToFile(doctorFile , doctorIdx) ;       
+        return true;
+    }
+    // at doctor_secondary_index
+    // this function return true if successfully deleted , false if not found
+    bool delete_doctor_appointment(const string &appointmentId ,const string &doctorId)
+    {
+        vector<string>matchedAppointmentIDs = search_by_doctor_id(doctorId);
+        if(matchedAppointmentIDs.empty())
+        {
+            return false;
+        }
+        auto it = remove(matchedAppointmentIDs.begin(), matchedAppointmentIDs.end(), appointmentId);
+        matchedAppointmentIDs.erase(it, matchedAppointmentIDs.end());
+
+
+        auto idxIt = find_if(appointmentIdx.begin(), appointmentIdx.end(),
+        [&doctorId](const pair<string, vector<string>>& entry) {
+            return entry.first == doctorId;
+        });
+        idxIt->second = matchedAppointmentIDs;
+
+        // sucess delete
+        saveToFile(appointmentFile, appointmentIdx) ;       
+        return true;
+    }
 
 };
