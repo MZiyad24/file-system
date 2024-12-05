@@ -13,27 +13,7 @@ private:
     AvaiList doctor_avillist ;
     AvaiList appointment_availlist ;
 
-    void loadFile()
-    void save(){  // don't forget using this after each function
-        file.seekp(0,ios::beg);
-        file2.seekp(0,ios::beg);
-        for(int i=0;i<(int)doc_idx.size();i++)
-        {
-            file.write((char*)&doc_idx[i].first,sizeof(doc_idx[i].first));
-            char del = '|';
-            file.write((char*)&del,sizeof(del));
-            file.write((char*)&doc_idx[i].second,sizeof(doc_idx[i].second));
-        }
-        for(int i=0;i<(int)app_idx.size();i++)
-        {
-            file.write((char*)&app_idx[i].first,sizeof(app_idx[i].first));
-            char del = '|';
-            file.write((char*)&del,sizeof(del));
-            file.write((char*)&app_idx[i].second,sizeof(app_idx[i].second));
-        }
-    }
-public:
-    PrimaryIndex(){
+    void loadFile(){
         file.open("doctor_primary_index.txt",ios::in | ios::out);
         if(file.is_open()) {
             char entry[15];
@@ -62,6 +42,32 @@ public:
             }
         }
         assert(file2.is_open());
+        file.close();
+        file2.close();
+    }
+    void save(){  // don't forget using this after each function
+        file.seekp(0,ios::beg);
+        file2.seekp(0,ios::beg);
+        for(int i=0;i<(int)doc_idx.size();i++)
+        {
+            file.write((char*)&doc_idx[i].first,sizeof(doc_idx[i].first));
+            char del = '|';
+            file.write((char*)&del,sizeof(del));
+            file.write((char*)&doc_idx[i].second,sizeof(doc_idx[i].second));
+        }
+        for(int i=0;i<(int)app_idx.size();i++)
+        {
+            file.write((char*)&app_idx[i].first,sizeof(app_idx[i].first));
+            char del = '|';
+            file.write((char*)&del,sizeof(del));
+            file.write((char*)&app_idx[i].second,sizeof(app_idx[i].second));
+        }
+    }
+public:
+    PrimaryIndex(){
+        loadFile();
+        sort(doc_idx.begin(),doc_idx.end());
+        sort(app_idx.begin(),app_idx.end());
     }
     
     vector<pair<char*,int>> get_doc_idx()
