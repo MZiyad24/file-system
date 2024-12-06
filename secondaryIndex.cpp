@@ -9,30 +9,34 @@ using namespace std;
 
 class SecondaryIndex {
 private:
-    vector<pair<string, vector<string>>> appointmentIdx; 
-    vector<pair<string, vector<string>>> doctorIdx;       
+    vector<pair<char*, vector<char*>>> appointmentIdx; 
+    vector<pair<char*, vector<char*>>> doctorIdx;       
     const string appointmentFile = "appointment_secondary_index.txt";
     const string doctorFile = "doctor_secondary_index.txt";
     AvaiList Doc_Avail ;
     AvaiList Appointment_Avail ;
 
 
-    void loadFileToVector(const string& filename, vector<pair<string, vector<string>>>& indexVec) {
+    void loadFileToVector(const string& filename, vector<pair<char*, vector<char*>>>& indexVec) 
+    {
         ifstream file(filename);
         if (!file.is_open()) {
             cerr << "Error opening file: " << filename << endl;
             return;
         }
+
         string line;
         while (getline(file, line)) {
             istringstream stream(line);
-            string key;
-            getline(stream, key, '|');  
 
-            vector<string> values;
-            string value;
-            while (getline(stream, value, ',')) {  
-                if (!value.empty()) {
+            string key_str;
+            getline(stream, key_str, '|');  
+            char* key = strdup(key_str.c_str());  
+            vector<char*> values;
+            string value_str;
+            while (getline(stream, value_str, ',')) {  
+                if (!value_str.empty()) {
+                    char* value = strdup(value_str.c_str());  
                     values.push_back(value);
                 }
             }
@@ -42,7 +46,10 @@ private:
 
         file.close();
     }
-    void saveToFile(const string& filename, const vector<pair<string, vector<string>>>& indexVec) {
+
+
+
+    void saveToFile(const string& filename, const vector<pair<char*, vector<char*>>>& indexVec) {
         ofstream file(filename, ios::trunc); 
         if (!file.is_open()) {
             cerr << "Error opening file for writing: " << filename << endl;
@@ -51,9 +58,9 @@ private:
 
         for (const auto& entry : indexVec) {
             if(entry.second.empty()) continue;
-            file << entry.first << "|";  // Write the key
+            file << entry.first << "|";  
             for (size_t i = 0; i < entry.second.size(); ++i) {
-                file << entry.second[i];  // Write the values
+                file << entry.second[i];  
                 if (i != entry.second.size() - 1) {
                     file << ",";
                 }
@@ -92,14 +99,14 @@ public:
         }
     }
 
-    const vector<pair<string, vector<string>>>& getAppointmentIndex() const {
+    const vector<pair<char*, vector<char*>>>& getAppointmentIndex() const {
         return appointmentIdx;
     }
 
-    const vector<pair<string, vector<string>>>& getDoctorIndex() const {
+    const vector<pair<char*, vector<char*>>>& getDoctorIndex() const {
         return doctorIdx;
     }
-    void addNewDoctor(string doctorName , string Id ) {
+    void addNewDoctor(char* doctorName , char* Id ) {
 
         auto it = find_if(doctorIdx.begin(), doctorIdx.end(),
                           [&doctorName](const pair<string, vector<string>>& entry) {
@@ -124,7 +131,7 @@ public:
     }
 
     // do not forget saveToFile()
-    void addNewApponitment(string DoctorId , string AppointmentId ){
+    void addNewApponitment(char* DoctorId , char* AppointmentId ){
         auto it = find_if(appointmentIdx.begin(), appointmentIdx.end(),
                           [&DoctorId](const pair<string, vector<string>>& entry) {
                               return entry.first == DoctorId;
@@ -151,8 +158,8 @@ public:
     // deletApponitment()  // do not forget saveToFile() using avail List
     //  deletDoctor()  // do not forget saveToFile()   using avail List
     // updateDoctorName() // do not forget saveToFile()
-    void updateDoctorName(string id,string newname,string oldname) {
-        vector<pair<string,vector<string>>>idxdata;
+    void updateDoctorName(char* id,char* newname,char* oldname) {
+        vector<pair<char*,vector<char*>>>idxdata;
         loadFileToVector(doctorFile, idxdata);//load the index file to vector
         for (auto it = idxdata.begin(); it != idxdata.end(); ++it) {
             if (it->first == oldname) {
@@ -193,11 +200,11 @@ public:
     }
 
     // at doctor_secondary_index
-    vector<string> search_by_doctor_name(const string &name)
+    vector<char*> search_by_doctor_name(const char* &name)
     {
         int start = 0;                  
         int end = doctorIdx.size() - 1; 
-        vector<string> doctorIDs;
+        vector<char*> doctorIDs;
         while (start <= end)
         {
             int mid = (start + end) / 2; 
@@ -223,9 +230,9 @@ public:
     }
 
     // at appointment_secondary_index 
-    vector<string> search_by_doctor_id(const string &doctorID)
+    vector<char*> search_by_doctor_id(const char* &doctorID)
     {
-        vector<string> appIDs;
+        vector<char*> appIDs;
         int start = 0;                       
         int end = (int)appointmentIdx.size() - 1;
 
@@ -251,9 +258,9 @@ public:
     
     // at doctor_secondary_index
     // this function return true if successfully deleted , false if not found
-    bool delete_doctor_name(const string &name ,const string &doctorID )
+    bool delete_doctor_name(const char* &name ,const char* &doctorID )
     {
-        vector<string>matchedIDs = search_by_doctor_name(name);
+        vector<char*>matchedIDs = search_by_doctor_name(name);
         if(matchedIDs.empty())
         {
             return false;
@@ -263,8 +270,8 @@ public:
         matchedIDs.erase(it, matchedIDs.end());
 
 
-        auto idxIt = std::find_if(doctorIdx.begin(), doctorIdx.end(),
-        [&name](const std::pair<std::string, std::vector<std::string>>& entry) {
+        auto idxIt = find_if(doctorIdx.begin(), doctorIdx.end(),
+        [&name](const pair<char*, vector<char*>>& entry) {
             return entry.first == name;
         });
         idxIt->second = matchedIDs;
@@ -275,9 +282,9 @@ public:
     }
     // at doctor_secondary_index
     // this function return true if successfully deleted , false if not found
-    bool delete_doctor_appointment(const string &appointmentId ,const string &doctorId)
+    bool delete_doctor_appointment(const char* &appointmentId ,const char* &doctorId)
     {
-        vector<string>matchedAppointmentIDs = search_by_doctor_id(doctorId);
+        vector<char*>matchedAppointmentIDs = search_by_doctor_id(doctorId);
         if(matchedAppointmentIDs.empty())
         {
             return false;
@@ -296,5 +303,4 @@ public:
         saveToFile(appointmentFile, appointmentIdx) ;       
         return true;
     }
-
 };
