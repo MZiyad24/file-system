@@ -3,6 +3,4 @@ project(files_assignment)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(files_assignment main.cpp appointment.cpp doctor.cpp primaryIndex.cpp secondaryIndex.cpp menu.cpp
-        AvaiList.cpp
-        AvaiList.h)
+add_executable(files_assignment main.cpp menu.cpp AvaiList.cpp AvaiList.h PIndex.h PIndex.cpp SIndex.h SIndex.cpp Doc.h Doc.cpp App.h App.cpp)

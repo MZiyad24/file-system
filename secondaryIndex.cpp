@@ -4,7 +4,6 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
-#include "primaryIndex.cpp"
 #include "AvaiList.h"
 using namespace std;
 
@@ -16,8 +15,6 @@ private:
     const string doctorFile = "doctor_secondary_index.txt";
     AvaiList Doc_Avail ;
     AvaiList Appointment_Avail ;
-    PrimaryIndex primaryIndex;
-
 
 
     void loadFileToVector(const string& filename, vector<pair<string, vector<string>>>& indexVec) {

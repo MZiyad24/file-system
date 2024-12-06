@@ -6,5 +6,6 @@ using namespace std;
 
 int main() {
     Menu menu;
+    cout<<"hello\n";
     return 0;
 }

@@ -10,9 +10,56 @@ private:
     char id [15];
     char date [30];
     char doctor_id [15];
-    PrimaryIndex px;
+    char *offset;
+    int length_indicator;
+    fstream file;
+    PIndex px;
     SecondaryIndex sx;
     AvaiList avl;
+    vector<pair<pair<pair<int,char*>,pair<char*,char*>>,char*>> app_data ;
+    // vector < pair< pair<pair<length , id>,pair<date,doc id>>,offset>>
+    void load()
+    {
+        file.open("appointment.txt",ios::in|ios::out|ios::binary);
+        assert(file.is_open());
+        file.seekg(0,ios::beg);
+        while(file.good())
+        {
+            file.read((char*)&length_indicator, sizeof(length_indicator));
+            file.ignore(1);
+            file.read((char*)&id, sizeof(id));
+            file.ignore(1);
+            file.read((char*)&date, sizeof(date));
+            file.ignore(1);
+            file.read((char*)&doctor_id, sizeof(doctor_id));
+            file.ignore(1);
+            file.read((char*)&offset, sizeof(int));
+            app_data.push_back(make_pair(make_pair(make_pair(length_indicator,id), make_pair(date,doctor_id)),offset));
+        }
+        file.close();
+        
+    }
+    void save()
+    {
+        file.open("appointment.txt",ios::in|ios::out);
+        assert(file.is_open());
+        file.seekp(0,ios::beg);
+        for(auto &entry : app_data)
+        {
+            file.write((char*)&entry.first.first.first, sizeof(length_indicator));
+            char del='|';
+            file.write((char*)&del, sizeof(del));
+            file.write((char*)&entry.first.first.second, sizeof(id));
+            file.write((char*)&del, sizeof(del));
+            file.write((char*)&entry.first.second.first, sizeof(date));
+            file.write((char*)&del, sizeof(del));
+            file.write((char*)&entry.first.second.second, sizeof(doctor_id));
+            file.write((char*)&del, sizeof(del));
+            file.write((char*)&entry.second,sizeof(int));
+            file<< "\n";
+        }
+        file.close();
+    }
 
 public:
     Appointment(const string& prim_filename="appointment_primary_index.txt",const string& sec_filename="appointment_secondary_index.txt"):px(),sx(){}
@@ -43,6 +90,59 @@ public:
     
     //add
     void add(char* id, char * date, char* doctor_id){
+        int doc_offset=px.search_doctor(doctor_id);
+        if(doc_offset==-1)
+        {
+            cerr<<"doctor doesn't exist!!\n";
+            return;
+        }
+        load();
+        int offset=avl.get();
+        pair<int,int> data_nums;
+        data_nums=calc(id,date,doctor_id);
+        if(offset==-1)
+        {
+            app_data.push_back(make_pair(make_pair(make_pair(data_nums.first,id), make_pair(date,doctor_id)),(char*)&data_nums.second));
+        }
+        else
+        {
+            int start = 0; // binary search
+            int end = (int)app_data.size() - 1;
+            int location=-1;
+    
+            while (start <= end)
+            {
+                int mid = (start + end) / 2;
+        
+                if (strcmp(app_data[mid].second, (char*)&offset) == 0)
+                {
+                    app_data[mid]=make_pair(make_pair(make_pair(data_nums.first,id), make_pair(date,doctor_id)),(char*)&offset);
+                    location = mid;
+                    break;
+                }
+                else if (strcmp(app_data[mid].second, (char*)&offset) < 0)
+                {
+                    start = mid + 1;
+                }
+                else
+                {
+                    end = mid - 1;
+                }
+            }
+    
+            if(location != -1)
+            {
+                for(int i=location+1;i<(int)app_data.size()-1;i++)
+                {
+                    offset+=app_data[i-1].first.first.first;
+                    app_data[i].second=(char*)&offset;
+                }
+            }
+        }
+        save();
+        px.add_appointment(id,offset);
+        sx.addNewApponitment(doctor_id,id);
+        
         /*
          * Check app id from primary index search
          * Check AVAIL list
@@ -63,7 +163,7 @@ public:
     }
     
     //delete
-    void Delete(string id){     ////////////// cast all strings to char * !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    void Delete(char* id){     ////////////// cast all strings to char * !!!!!!!!!!!!!!!!!!!!!!!!!!!!
         /*
          * char * offset = px.delete(id);
          * if( offset != (char*)'-1')
@@ -75,6 +175,45 @@ public:
          *      update appointment vector
          * }
          * */
+    
+        char * offset = px.delete_appointment(id);
+        if(strcmp(offset,(char*)"-1")!=0)
+        {
+            // deleted from px and got the offset
+            load();
+            int start = 0; // binary search
+            int end = (int)app_data.size() - 1;
+            char*doctor_id;
+        
+            // search for the offset and delete from file
+            while (start <= end)
+            {
+                int mid = (start + end) / 2;
+            
+                if (strcmp(app_data[mid].second, (char*)&offset) == 0)
+                {
+                    strcpy(app_data[mid].first.first.second,(char*)"deleted");
+                    strcpy(doctor_id,app_data[mid].first.second.second);
+                    break;
+                }
+                else if (strcmp(app_data[mid].second, (char*)&offset) < 0)
+                {
+                    start = mid + 1;
+                }
+                else
+                {
+                    end = mid - 1;
+                }
+            }
+            int avail_off = stoi(offset);
+        
+            // add to AVAIL list
+            avl.add(avail_off);
+            
+            // delete from secondary index
+            sx.delete_doctor_appointment(id,doctor_id);
+            save();
+        }
     }
     void Delete_by_Doctor(char*doctor_id){
         vector<string> apIDs;
@@ -83,7 +222,7 @@ public:
         {
             for(const auto &entry:apIDs)
             {
-                Delete(entry);
+                Delete((char*)&entry);
             }
         }
         /*
@@ -169,6 +308,17 @@ public:
         /*
         * loop the vector and print all the appointment data
         * */
+        if(app_data.size()>0)
+        for(auto&entry:app_data)
+        {
+            cout<<"length: "<<entry.first.first.first<<" "
+                <<"App ID: "<<entry.first.first.second<<" "
+                <<"App date: "<<entry.first.second.first<<" "
+                <<"Doctor's ID: "<<entry.first.second.second<<" "
+                <<"offset: "<<entry.second<<"\n";
+        }
+        else
+            cout<<"no appointment to show\n";
     }
     
     //search
@@ -178,4 +328,19 @@ public:
          *  Binary search the vector for the id and print the appointment info
          * */
     }
+    
+    pair<int,int> calc(char* id, char * date, char* doc_id){
+        int length = sizeof(id)+ sizeof(date)+ sizeof(doc_id);
+        int offset;
+        if((int)app_data.size()==0)
+        {
+            offset = 0;
+        }
+        else{
+            int past_length = app_data[(int)app_data.size()-1].first.first.first;
+            offset = stoi(app_data[(int)app_data.size()-1].second);
+            offset+=past_length;
+        }
+        return make_pair(length,offset);
+    }  // calculates the length indicator and offset
 };

@@ -1,1 +1,0 @@
-(length)| ID (PK) | Date | Doctor ID (SK)
