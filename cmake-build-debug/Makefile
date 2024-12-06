@@ -152,6 +152,30 @@ AvaiList.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\files_assignment.dir\build.make CMakeFiles/files_assignment.dir/AvaiList.cpp.s
 .PHONY : AvaiList.cpp.s
 
+QueryHandeler.obj: QueryHandeler.cpp.obj
+.PHONY : QueryHandeler.obj
+
+# target to build an object file
+QueryHandeler.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\files_assignment.dir\build.make CMakeFiles/files_assignment.dir/QueryHandeler.cpp.obj
+.PHONY : QueryHandeler.cpp.obj
+
+QueryHandeler.i: QueryHandeler.cpp.i
+.PHONY : QueryHandeler.i
+
+# target to preprocess a source file
+QueryHandeler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\files_assignment.dir\build.make CMakeFiles/files_assignment.dir/QueryHandeler.cpp.i
+.PHONY : QueryHandeler.cpp.i
+
+QueryHandeler.s: QueryHandeler.cpp.s
+.PHONY : QueryHandeler.s
+
+# target to generate assembly for a file
+QueryHandeler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\files_assignment.dir\build.make CMakeFiles/files_assignment.dir/QueryHandeler.cpp.s
+.PHONY : QueryHandeler.cpp.s
+
 appointment.obj: appointment.cpp.obj
 .PHONY : appointment.obj
 
@@ -308,6 +332,9 @@ help:
 	@echo ... AvaiList.obj
 	@echo ... AvaiList.i
 	@echo ... AvaiList.s
+	@echo ... QueryHandeler.obj
+	@echo ... QueryHandeler.i
+	@echo ... QueryHandeler.s
 	@echo ... appointment.obj
 	@echo ... appointment.i
 	@echo ... appointment.s

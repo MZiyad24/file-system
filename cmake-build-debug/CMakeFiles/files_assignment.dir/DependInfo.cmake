@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/dell/CLionProjects/file-system/AvaiList.cpp" "CMakeFiles/files_assignment.dir/AvaiList.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/AvaiList.cpp.obj.d"
+  "C:/Users/dell/CLionProjects/file-system/QueryHandeler.cpp" "CMakeFiles/files_assignment.dir/QueryHandeler.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/QueryHandeler.cpp.obj.d"
   "C:/Users/dell/CLionProjects/file-system/appointment.cpp" "CMakeFiles/files_assignment.dir/appointment.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/appointment.cpp.obj.d"
   "C:/Users/dell/CLionProjects/file-system/doctor.cpp" "CMakeFiles/files_assignment.dir/doctor.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/doctor.cpp.obj.d"
   "C:/Users/dell/CLionProjects/file-system/main.cpp" "CMakeFiles/files_assignment.dir/main.cpp.obj" "gcc" "CMakeFiles/files_assignment.dir/main.cpp.obj.d"

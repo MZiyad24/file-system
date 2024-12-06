@@ -1,11 +1,7 @@
-<<<<<<<< HEAD:cmake-build-debug/CMakeFiles/3.23.2/CMakeCXXCompiler.cmake
-set(CMAKE_CXX_COMPILER "C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/g++.exe")
-========
 set(CMAKE_CXX_COMPILER "C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/bin/g++.exe")
->>>>>>>> 6df7dd7ec326e29c376a0189e0cad42c364f4d46:cmake-build-debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake
 set(CMAKE_CXX_COMPILER_ARG1 "")
 set(CMAKE_CXX_COMPILER_ID "GNU")
-set(CMAKE_CXX_COMPILER_VERSION "11.2.0")
+set(CMAKE_CXX_COMPILER_VERSION "13.1.0")
 set(CMAKE_CXX_COMPILER_VERSION_INTERNAL "")
 set(CMAKE_CXX_COMPILER_WRAPPER "")
 set(CMAKE_CXX_STANDARD_COMPUTED_DEFAULT "17")
@@ -22,19 +18,12 @@ set(CMAKE_CXX26_COMPILE_FEATURES "")
 
 set(CMAKE_CXX_PLATFORM_ID "MinGW")
 set(CMAKE_CXX_SIMULATE_ID "")
-set(CMAKE_CXX_COMPILER_FRONTEND_VARIANT "")
+set(CMAKE_CXX_COMPILER_FRONTEND_VARIANT "GNU")
 set(CMAKE_CXX_SIMULATE_VERSION "")
 
 
 
 
-<<<<<<<< HEAD:cmake-build-debug/CMakeFiles/3.23.2/CMakeCXXCompiler.cmake
-set(CMAKE_AR "C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/ar.exe")
-set(CMAKE_CXX_COMPILER_AR "C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/gcc-ar.exe")
-set(CMAKE_RANLIB "C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/ranlib.exe")
-set(CMAKE_CXX_COMPILER_RANLIB "C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/gcc-ranlib.exe")
-set(CMAKE_LINKER "C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/ld.exe")
-========
 set(CMAKE_AR "C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/bin/ar.exe")
 set(CMAKE_CXX_COMPILER_AR "C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/bin/gcc-ar.exe")
 set(CMAKE_RANLIB "C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/bin/ranlib.exe")
@@ -46,8 +35,8 @@ set(CMAKE_CXX_COMPILER_LINKER "C:/Users/dell/AppData/Local/Programs/CLion/bin/mi
 set(CMAKE_CXX_COMPILER_LINKER_ID "GNU")
 set(CMAKE_CXX_COMPILER_LINKER_VERSION 2.40)
 set(CMAKE_CXX_COMPILER_LINKER_FRONTEND_VARIANT GNU)
->>>>>>>> 6df7dd7ec326e29c376a0189e0cad42c364f4d46:cmake-build-debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake
 set(CMAKE_MT "")
+set(CMAKE_TAPI "CMAKE_TAPI-NOTFOUND")
 set(CMAKE_COMPILER_IS_GNUCXX 1)
 set(CMAKE_CXX_COMPILER_LOADED 1)
 set(CMAKE_CXX_COMPILER_WORKS TRUE)
@@ -56,7 +45,7 @@ set(CMAKE_CXX_ABI_COMPILED TRUE)
 set(CMAKE_CXX_COMPILER_ENV_VAR "CXX")
 
 set(CMAKE_CXX_COMPILER_ID_RUN 1)
-set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS C;M;c++;cc;cpp;cxx;m;mm;mpp;CPP;ixx;cppm)
+set(CMAKE_CXX_SOURCE_FILE_EXTENSIONS C;M;c++;cc;cpp;cxx;m;mm;mpp;CPP;ixx;cppm;ccm;cxxm;c++m)
 set(CMAKE_CXX_IGNORE_EXTENSIONS inl;h;hpp;HPP;H;o;O;obj;OBJ;def;DEF;rc;RC)
 
 foreach (lang IN ITEMS C OBJC OBJCXX)
@@ -69,10 +58,7 @@ endforeach()
 
 set(CMAKE_CXX_LINKER_PREFERENCE 30)
 set(CMAKE_CXX_LINKER_PREFERENCE_PROPAGATES 1)
-<<<<<<<< HEAD:cmake-build-debug/CMakeFiles/3.23.2/CMakeCXXCompiler.cmake
-========
 set(CMAKE_CXX_LINKER_DEPFILE_SUPPORTED FALSE)
->>>>>>>> 6df7dd7ec326e29c376a0189e0cad42c364f4d46:cmake-build-debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake
 
 # Save compiler ABI information.
 set(CMAKE_CXX_SIZEOF_DATA_PTR "8")
@@ -101,15 +87,9 @@ endif()
 
 
 
-<<<<<<<< HEAD:cmake-build-debug/CMakeFiles/3.23.2/CMakeCXXCompiler.cmake
-set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++;C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32;C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward;C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include;C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/include;C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed;C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/x86_64-w64-mingw32/include;/MinGW/include")
-set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "stdc++;mingw32;gcc_s;gcc;moldname;mingwex;kernel32;pthread;advapi32;shell32;user32;kernel32;iconv;mingw32;gcc_s;gcc;moldname;mingwex;kernel32")
-set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0;C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/lib/gcc;C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/x86_64-w64-mingw32/lib;C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/lib;/MinGW/lib")
-========
 set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++;C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32;C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward;C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include;C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/include;C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed;C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include;/MinGW/include")
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "stdc++;mingw32;gcc_s;gcc;moldname;mingwex;kernel32;pthread;advapi32;shell32;user32;kernel32;iconv;mingw32;gcc_s;gcc;moldname;mingwex;kernel32")
 set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0;C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/lib/gcc;C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/lib;C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/lib;/MinGW/lib")
->>>>>>>> 6df7dd7ec326e29c376a0189e0cad42c364f4d46:cmake-build-debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake
 set(CMAKE_CXX_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")
 set(CMAKE_CXX_COMPILER_CLANG_RESOURCE_DIR "")
 

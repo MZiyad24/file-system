@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-# Install script for directory: C:/Users/mziya/OneDrive/Desktop/files-assignment
-=======
 # Install script for directory: C:/Users/dell/CLionProjects/file-system
->>>>>>> 6df7dd7ec326e29c376a0189e0cad42c364f4d46
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,11 +34,7 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-<<<<<<< HEAD
-  set(CMAKE_OBJDUMP "C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/objdump.exe")
-=======
   set(CMAKE_OBJDUMP "C:/Users/dell/AppData/Local/Programs/CLion/bin/mingw/bin/objdump.exe")
->>>>>>> 6df7dd7ec326e29c376a0189e0cad42c364f4d46
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -60,10 +52,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-<<<<<<< HEAD
-file(WRITE "C:/Users/mziya/OneDrive/Desktop/files-assignment/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
-=======
   file(WRITE "C:/Users/dell/CLionProjects/file-system/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
->>>>>>> 6df7dd7ec326e29c376a0189e0cad42c364f4d46
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
