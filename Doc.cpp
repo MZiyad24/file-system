@@ -9,7 +9,7 @@ Doc::Doc(const string& prim_filename, const string& sec_filename) : px(), sx() {
 
 void Doc::add(char* id, char * name, char* address){
     
-    file.open("doctor.txt",ios::out|ios::trunc);
+    file.open("doctor.txt",ios::out|ios::app);
     int check = px.search_doctor(id);
     if(check!= -1)
     {
@@ -22,8 +22,10 @@ void Doc::add(char* id, char * name, char* address){
         sx.addNewDoctor(name,id);
         if (offset == -1) {
             px.add_doctor(id,calc());
-            file.seekp(0, ios::beg);
-            file << size << '|' << id <<'|' << name << '|' <<address <<"\n";
+            string iddd = id;
+            string Name  = name;
+            string Address = address;
+            file << size << '|'<< iddd <<'|' << Name << '|' <<Address <<"\n";
         }
         else
         {
@@ -128,7 +130,7 @@ void Doc::Delete(char * id){
     strcpy(offset,px.delete_doctor(id));
     if(strcmp(offset,"-1") !=0)
     {
-        file.open("doctor.txt",ios::in | ios::out | ios::trunc);
+        file.open("doctor.txt",ios::app);
         if(file.is_open())
         {
             file.seekg(stoi(string(offset)),ios::beg);
@@ -141,7 +143,6 @@ void Doc::Delete(char * id){
             sx.delete_doctor_name(name,id);
             avl.add(stoi(string(offset)));
             app.Delete_by_Doctor(id);
-            file.close();
         }
         assert(file.is_open());
     }

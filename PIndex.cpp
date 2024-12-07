@@ -8,34 +8,28 @@ using namespace std;
 
 void PIndex::loadFile(){
     file.open("doctor_primary_index.txt",ios::in );
-    if(file.is_open()) {
-        char entry[15];
-        int offset;
-        file.seekg(0, ios::beg);
-        if(!file)
-        while (file.good()) {
-            file >> entry;
-            file.ignore(1);
-            file >> offset;
-            doc_idx.push_back(make_pair(entry, offset));
-        }
+    string line;
+    while (getline(file, line)) {
+        if((int)line.size()==0)break;
+        istringstream stream(line);
+        string key,off;
+        getline(stream, key, '|');
+        getline(stream, off, '|');
+        char * entry =  new char [key.size()+1];
+        strcpy(entry , key.c_str());
+        doc_idx.push_back({entry, stoi(off)});
+        
     }
-    assert(file.is_open());
-    file2.open("appointment_primary_index.txt",ios::in|ios::out);
-    if(file2.is_open()) {
-        char entry[15];
-        int offset;
-        file2.seekg(0, ios::beg);
-        if(!file2)
-        while (file2.good()) {
-            file2 >> entry;
-            file2.ignore(1);
-            file2 >> offset;
-            app_idx.push_back(make_pair(entry, offset));
-        }
-    }
-    assert(file2.is_open());
     file.close();
+    file2.open("appointment_primary_index.txt",ios::in|ios::out);
+    while (getline(file, line)) {
+        if((int)line.size()==0)break;
+        istringstream stream(line);
+        string key,off;
+        getline(stream, key, '|');
+        getline(stream, off, '|');
+        app_idx.push_back({(char*)&key, stoi(off)});
+    }
     file2.close();
 }
 
@@ -44,14 +38,16 @@ void PIndex::save(){  // don't forget using this after each function
     file2.open("appointment_primary_index.txt",ios::in | ios::out |ios::trunc);
     for(auto&entry:doc_idx)
     {
-        file << entry.first << '|' <<entry.second <<"\n";
+        string id = entry.first;
+        file << id << '|' << entry.second <<"\n";
     }
+    file.close();
     for(auto&entry:app_idx)
     {
         file2 << entry.first << '|' <<entry.second <<"\n";
     }
-    file.close();
     file2.close();
+    
 }
 
 PIndex::PIndex(){}
@@ -92,35 +88,18 @@ void PIndex::add_appointment(char* id, int offset) {
 
 char* PIndex::delete_doctor(char* id)  // returning offset as char *
 {
-    char* offset = reinterpret_cast<char*>(search_doctor(id));
-    string err = "-1";
+    int awad = search_doctor(id);
+    char* offset = new char [ 15 ];
+    string zft = to_string(awad);
+    strcpy(offset, zft.c_str());
+    auto err = NULL;
     if( offset!=(char*)&err)
     {
-        int start = 0; // binary search
-        int end = doc_idx.size() - 1;
-        
-        while (start <= end)
-        {
-            int mid = (start + end) / 2;
-            
-            if (strcmp(doc_idx[mid].first, id) == 0)
-            {
-                if(doc_idx[0].first!=id)
-                {
-                    doc_idx[mid].first=(char*)"\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF";
-                    sort(doc_idx.begin(),doc_idx.end());
-                }
-                doc_idx.pop_back();
-                save();
-                return offset;
-            }
-            else if (strcmp(doc_idx[mid].first, id) < 0)
-            {
-                start = mid + 1;
-            }
-            else
-            {
-                end = mid - 1;
+        for (auto it = doc_idx.begin(); it != doc_idx.end(); ++it) {
+            if (strcmp(it->first, id) == 0) {
+                delete[] it->first;
+                doc_idx.erase(it);
+                break;
             }
         }
     }
@@ -190,6 +169,10 @@ void PIndex::print_app(){
 int PIndex::search_doctor(const char *id)  // returning offset as int
 {
     loadFile();
+    if((int)doc_idx.size()==0)
+    {
+        return -1;
+    }
     int start = 0; // binary search
     int end = doc_idx.size() - 1;
     
@@ -210,8 +193,6 @@ int PIndex::search_doctor(const char *id)  // returning offset as int
             end = mid - 1;
         }
     }
-    
-    return -1;
 }
 
 void PIndex::update_doctor(char *id, int offset) {
