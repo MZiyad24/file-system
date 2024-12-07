@@ -3,22 +3,19 @@
 
 #include <string>
 #include <vector>
-#include "primaryIndex.cpp"
-#include "secondaryIndex.cpp"
+#include "App.h"
+#include "Doc.h"
 using namespace std;
 class QueryHandler {
 private:
-    SecondaryIndex secondaryIndex;
-    PrimaryIndex primaryIndex;
-
-    void printDoctorDetails(int offset);
-    void printAppointmentDetails(int offset);
+    Doc doctor;
+    App appointment;
 
 public:
     QueryHandler();
     void handle(const std::string &query);
 };
-
+vector<pair<pair<pair<int, char*>, pair<char*, char*>>, char*>> doc_data;
 string extractValue(const std::string &query, const std::string &key);
 
 #endif // QUERYHANDLER_H
