@@ -6,10 +6,10 @@
 using namespace std;
 class Menu{
 public:
-       QueryHandler queryHandler;
+       // QueryHandler queryHandler;
        Doc doctor;
        App app;
-    Menu(){ cout<<"hello\n";
+       Menu(){
         bool flag =true;
         while(flag)
         {
@@ -102,7 +102,7 @@ public:
         case 9:
             cout<<"enter your query: ";
             getline(cin, query);
-            queryHandler.handle(query);
+            //queryHandler.handle(query);
             break;
         case 0:
             flag=false;

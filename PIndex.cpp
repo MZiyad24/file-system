@@ -7,7 +7,9 @@
 using namespace std;
 
 void PIndex::loadFile(){
-    file.open("doctor_primary_index.txt",ios::in );
+    doc_idx.clear();
+    app_idx.clear();
+    file.open("doctor_primary_index.txt",ios::in);
     string line;
     while (getline(file, line)) {
         if((int)line.size()==0)break;
@@ -21,7 +23,7 @@ void PIndex::loadFile(){
         
     }
     file.close();
-    file2.open("appointment_primary_index.txt",ios::in|ios::out);
+    file2.open("appointment_primary_index.txt",ios::in);
     while (getline(file, line)) {
         if((int)line.size()==0)break;
         istringstream stream(line);
@@ -34,8 +36,8 @@ void PIndex::loadFile(){
 }
 
 void PIndex::save(){  // don't forget using this after each function
-    file.open("doctor_primary_index.txt",ios::in | ios::out |ios::trunc);
-    file2.open("appointment_primary_index.txt",ios::in | ios::out |ios::trunc);
+    file.open("doctor_primary_index.txt",ios::out);
+    file2.open("appointment_primary_index.txt",ios::out);
     for(auto&entry:doc_idx)
     {
         string id = entry.first;
@@ -63,10 +65,6 @@ vector<pair<char*, int>> PIndex::get_app_idx()
 }
 
 void PIndex::add_doctor(char* id , int offset) {
-    if (search_doctor(id) != -1){
-        cout << "Doctor already found" ;
-        return;
-    }
     doc_idx.emplace_back(make_pair(id, offset));
     sort(doc_idx.begin(), doc_idx.end(), [](const pair<char*, int>& a, const pair<char*, int>& b) {
         return strcmp(a.first, b.first) < 0;
@@ -193,6 +191,7 @@ int PIndex::search_doctor(const char *id)  // returning offset as int
             end = mid - 1;
         }
     }
+    return -1;
 }
 
 void PIndex::update_doctor(char *id, int offset) {

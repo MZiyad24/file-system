@@ -9,87 +9,46 @@ Doc::Doc(const string& prim_filename, const string& sec_filename) : px(), sx() {
 
 void Doc::add(char* id, char * name, char* address){
     
-    file.open("doctor.txt",ios::out|ios::app);
+    file.open("C:\\Users\\mziya\\OneDrive\\Desktop\\files-assignment\\cmake-build-debug\\doctor.txt",ios::in|ios::out|ios::app);
     int check = px.search_doctor(id);
     if(check!= -1)
     {
         cout<<"doctor already exists!!!! \n";
+        file.close();
         return;
     }
     int offset = avl.get();
-    if(file.is_open()) {
-        int size = sizeof(id)+sizeof(name)+sizeof(address);
-        sx.addNewDoctor(name,id);
+        int size = strlen(id)+ strlen(name) + strlen(address);
+        string ssize = to_string(size);
+        sx.addNewDoctor(name, id);
         if (offset == -1) {
-            px.add_doctor(id,calc());
             string iddd = id;
-            string Name  = name;
+            string Name = name;
             string Address = address;
-            file << size << '|'<< iddd <<'|' << Name << '|' <<Address <<"\n";
+            file << size;
+            file << "|";
+            file << iddd;
+            file << "|";
+            file << Name;
+            file << "|";
+            file<<Address ;
+            file<<"\n";
+            file.close();
+            px.add_doctor(id, calc());
         }
         else
         {
-            px.add_doctor(id,offset);
+            //px.add_doctor(id,offset);
             file.seekp(offset,ios::beg);
             file << size << '|' << id <<'|' << name << '|' <<address <<"\n";
+            file.close();
         }
-        file.close();
-    }
-//
-//    int doc_search = px.search_doctor(id);
-//    if(doc_search !=-1)
-//    {
-//        cout<<"doctor already exists!!\n";
-//        return;
-//    }
-//    int offset = avl.get();
-//    pair<int,int> data_nums;
-//    data_nums=calc(id,name,address);
-//    if(offset==-1)  // no place in AVAIL list
-//    {
-//        doc_data.push_back(make_pair(make_pair(make_pair(data_nums.first,id), make_pair(name,address)),(char*)&data_nums.second));
-//    }
-//    else
-//    {
-//
-//        int start = 0; // binary search
-//        int end = (int)doc_data.size() - 1;
-//        int location=-1;
-//
-//        while (start <= end)
-//        {
-//            int mid = (start + end) / 2;
-//
-//            if (strcmp(doc_data[mid].second, (char*)&offset) == 0)
-//            {
-//                doc_data[mid]=make_pair(make_pair(make_pair(data_nums.first,id), make_pair(name,address)),(char*)&offset);
-//                location = mid;
-//                break;
-//            }
-//            else if (strcmp(doc_data[mid].second, (char*)&offset) < 0)
-//            {
-//                start = mid + 1;
-//            }
-//            else
-//            {
-//                end = mid - 1;
-//            }
-//        }
-//
-//        if(location != -1)
-//        {
-//            for(int i=location+1;i<(int)doc_data.size()-1;i++)
-//            {
-//                offset+=doc_data[i-1].first.first.first;
-//                doc_data[i].second=(char*)&offset;
-//            }
-//        }
-//
-//
-//    }
-//    save();
-//    px.add_doctor(id,data_nums.second);
-//    sx.addNewDoctor(name,id);
+    
+    //file.close();
+    
+    
+
+    
     
     /*
      * Check data size integrity
@@ -145,49 +104,9 @@ void Doc::Delete(char * id){
             app.Delete_by_Doctor(id);
         }
         assert(file.is_open());
+        file.close();
     }
-    
-//    char * offset = px.delete_doctor(id);
-//    if(strcmp(offset,(char*)"-1")!=0)
-//    {
-//        // deleted from px and got the offset
-//        load();
-//        int start = 0; // binary search
-//        int end = (int)doc_data.size() - 1;
-//        char* name;
-//
-//        // search for the offset and delete from file
-//        while (start <= end)
-//        {
-//            int mid = (start + end) / 2;
-//
-//            if (strcmp(doc_data[mid].second, (char*)&offset) == 0)
-//            {
-//                strcpy(doc_data[mid].first.first.second,(char*)"deleted");
-//                strcpy(name,doc_data[mid].first.second.first);
-//                break;
-//            }
-//            else if (strcmp(doc_data[mid].second, (char*)&offset) < 0)
-//            {
-//                start = mid + 1;
-//            }
-//            else
-//            {
-//                end = mid - 1;
-//            }
-//        }
-//        int avail_off = stoi(string(offset));
-//
-//        // add to AVAIL list
-//        avl.add(avail_off);
-//
-//        // delete from appointment file
-//        app.Delete_by_Doctor(id);
-//
-//        // delete from secondary index
-//        sx.delete_doctor_name(name,id);
-//        save();
-//    }
+ 
 }
 
 void Doc::updata_docName(char* ID,char* newname) {
@@ -217,71 +136,8 @@ void Doc::updata_docName(char* ID,char* newname) {
         sx.updateDoctorName(string(ID),string(newname),string(name));
         calc();
     }
-    
-//    string oldname = this->name;
-//    strcpy(this->name,newname);
-//    //update the secondary index
-//    sx.updateDoctorName(ID,newname,oldname);
-//    //load the docror file into vector
-//    vector<pair<string,vector<string>>>docfile;
-//    ifstream file("doctor.txt");
-//    if (!file.is_open()) {
-//        cerr << "Error opening file: " << "doctor.txt" << endl;
-//        return;
-//    }
-//    string line;
-//    while (getline(file, line)) {
-//        istringstream stream(line);
-//        string key;
-//        getline(stream, key, '|');
-//
-//        vector<string> values;
-//        string value;
-//        while (getline(stream, value, '|')) {
-//            if (!value.empty()) {
-//                values.push_back(value);
-//            }
-//        }
-//
-//        docfile.push_back({key, values});
-//    }
-//
-//    file.close();
-//    //
-//    // Loop through the docfile and update the length
-//    for (auto& entry : docfile) {
-//        string length = entry.first; // Get the length indicator of the record
-//        vector<string>& record = entry.second;
-//
-//        if (record[0] == ID) { // Check  the ID
-//            int oldLength = stoi(length);
-//            int diff = strlen(newname) - strlen(oldname.c_str());
-//            int newLength = oldLength + diff;
-//
-//            // Update the length in the record
-//            entry.first = to_string(newLength);
-//            break;
-//        }
-//    }
-//    // save it ,load vector back int doctor file
-//    ofstream File("doctor.txt", ios::trunc);
-//    if (!file.is_open()) {
-//        cerr << "Error opening file for writing: " << "doctor.txt"<< endl;
-//        return;
-//    }
-//
-//    for (const auto& entry : docfile) {
-//        File << entry.first << "|";  // Write the key
-//        for (size_t i = 0; i < entry.second.size(); ++i) {
-//            File << entry.second[i];  // Write the values
-//            if (i != entry.second.size() - 1) {
-//                File << ",";
-//            }
-//        }
-//        File << endl;
-//    }
-//    File.close();
-//
+    file.close();
+ 
 }
 
 void Doc::print(){
@@ -304,9 +160,11 @@ void Doc::print(){
                 <<"Name: "<<name <<" "
                 <<"Address ID: "<<address<<"\n";
         }
+        
     }
     else
         cout<<"no Doctors to show\n";
+    file.close();
 }
 
 void Doc::search(char * name)
@@ -325,41 +183,30 @@ void Doc::search(char * name)
 }
 
 int Doc::calc() {
-    file.open("doctor.txt",ios::in);
+    file.open("doctor.txt",ios::in | ios::out);
     if(file.is_open()) {
         avl.clear();
         string line;
         int currentOffset=0;
-        while (getline(file, line)) {
-            istringstream stream(line);
-            string tempLength;
-            string id;
-            int rowLength = stoi(tempLength);
-        
-            getline(stream, tempLength, '|');
-            getline(stream, id, '|');
-            if(id=="deleted")
-            {
-                avl.add(currentOffset);
+        if (file.peek() != std::ifstream::traits_type::eof()) {
+            while (getline(file, line)) {
+                istringstream stream(line);
+                string tempLength;
+                string id;
+                int rowLength;
+                getline(stream, tempLength, '|');
+                stringstream (tempLength)>>rowLength;
+                getline(stream, id, '|');
+                if (id == "deleted") {
+                    avl.add(currentOffset);
+                } else {
+                    px.update_doctor((char *) &id, currentOffset);
+                }
+                currentOffset += rowLength;
             }
-            else {
-                px.update_doctor((char *) &id, currentOffset);
-            }
-            currentOffset += rowLength;
         }
-        file.close();
         return currentOffset;
     }
-    assert(file.is_open());
+    file.close();
+    
 }
-/*
- * int ans=0;
-        while(file.good()) {
-            char *length;
-            file.getline(length, '|');
-            int temp = stoi(string(length));
-            file.seekg(temp, ios::cur);
-            ans+=temp;
-        }
-    }*/
-
