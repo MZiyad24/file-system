@@ -26,20 +26,9 @@ private:
     SIndex sx;
     AvaiList avl;
     
-    std::vector<std::pair<std::pair<std::pair<int, char*>, std::pair<char*, char*>>, char*>> app_data;
-    
-    void load();
-    void save();
-
 public:
     App(const std::string& prim_filename = "appointment_primary_index.txt",
                 const std::string& sec_filename = "appointment_secondary_index.txt");
-    
-    void set_id(char* id);
-    char* get_id();
-    
-    void set_date(char* date);
-    char* get_date();
     
     void add(char* id, char* date, char* doctor_id);
     void Delete(char* id);
@@ -48,7 +37,7 @@ public:
     void print();
     void search(char* id);
     
-    std::pair<int, int> calc(char* id, char* date, char* doc_id);
+    int calc();
 };
 
 

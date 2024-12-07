@@ -7,16 +7,16 @@
 using namespace std;
 
 void PIndex::loadFile(){
-    file.open("doctor_primary_index.txt",ios::in | ios::out);
+    file.open("doctor_primary_index.txt",ios::in );
     if(file.is_open()) {
         char entry[15];
         int offset;
         file.seekg(0, ios::beg);
-        if(file.tellg()!=-1)
+        if(!file)
         while (file.good()) {
-            file2 >> entry;
-            file2.ignore(1);
-            file2 >> offset;
+            file >> entry;
+            file.ignore(1);
+            file >> offset;
             doc_idx.push_back(make_pair(entry, offset));
         }
     }
@@ -26,7 +26,7 @@ void PIndex::loadFile(){
         char entry[15];
         int offset;
         file2.seekg(0, ios::beg);
-        if(file2.tellg()!=-1)
+        if(!file2)
         while (file2.good()) {
             file2 >> entry;
             file2.ignore(1);
@@ -54,11 +54,7 @@ void PIndex::save(){  // don't forget using this after each function
     file2.close();
 }
 
-PIndex::PIndex(){
-    loadFile();
-    sort(doc_idx.begin(),doc_idx.end());
-    sort(app_idx.begin(),app_idx.end());
-}
+PIndex::PIndex(){}
 
 vector<pair<char*, int>> PIndex::get_doc_idx()
 {
@@ -75,8 +71,6 @@ void PIndex::add_doctor(char* id , int offset) {
         cout << "Doctor already found" ;
         return;
     }
-    loadFile();
-    
     doc_idx.emplace_back(make_pair(id, offset));
     sort(doc_idx.begin(), doc_idx.end(), [](const pair<char*, int>& a, const pair<char*, int>& b) {
         return strcmp(a.first, b.first) < 0;
@@ -218,6 +212,56 @@ int PIndex::search_doctor(const char *id)  // returning offset as int
     }
     
     return -1;
+}
+
+void PIndex::update_doctor(char *id, int offset) {
+    int start = 0; // binary search
+    int end = doc_idx.size() - 1;
+    
+    while (start <= end)
+    {
+        int mid = (start + end) / 2;
+        
+        if (strcmp(doc_idx[mid].first, id) == 0)
+        {
+            doc_idx[mid].second = offset; // offset
+            return;
+        }
+        else if (strcmp(doc_idx[mid].first, id) < 0)
+        {
+            start = mid + 1;
+        }
+        else
+        {
+            end = mid - 1;
+        }
+    }
+    
+}
+
+void PIndex::update_appointment(char *id, int offset) {
+    int start = 0; // binary search
+    int end = app_idx.size() - 1;
+    
+    while (start <= end)
+    {
+        int mid = (start + end) / 2;
+        
+        if (strcmp(app_idx[mid].first, id) == 0)
+        {
+            app_idx[mid].second = offset; // offset
+            return;
+        }
+        else if (strcmp(app_idx[mid].first, id) < 0)
+        {
+            start = mid + 1;
+        }
+        else
+        {
+            end = mid - 1;
+        }
+    }
+    
 }
 
 int PIndex::search_appointment(const char *id)

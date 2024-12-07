@@ -5,8 +5,8 @@
 using namespace std;
 class Menu{
 public:
-    Doc doctor;
-    App app;
+       Doc doctor;
+       App app;
     Menu(){ cout<<"hello\n";
         bool flag =true;
         while(flag)

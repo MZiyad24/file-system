@@ -30,6 +30,8 @@ public:
     char* delete_appointment(char* id);
     void print_doctor();
     void print_app();
+    void update_doctor(char*id , int offset);
+    void update_appointment(char*id , int offset);
     int search_doctor(const char* id);
     int search_appointment(const char* id);
     ~PIndex();
