@@ -2,9 +2,11 @@
 #include "bits/stdc++.h"
 #include "Doc.h"
 #include "App.h"
+#include "QueryHandler.h"
 using namespace std;
 class Menu{
 public:
+       QueryHandler queryHandler;
        Doc doctor;
        App app;
     Menu(){ cout<<"hello\n";
@@ -99,8 +101,8 @@ public:
             break;
         case 9:
             cout<<"enter your query: ";
-            cin>> query;
-            //Write Query
+            getline(cin, query);
+            queryHandler.handle(query);
             break;
         case 0:
             flag=false;
