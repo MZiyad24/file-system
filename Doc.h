@@ -39,8 +39,8 @@ public:
     void print();
     void search(char* id);// edit this to fitch the record
     // make search by name function that fetch the record 
-    //its better for my to make the function to return the record not print it so i can print the name
-    // in the select name query                "Awaaaaaaaaaaaaaaaad" 
+    // make search by id function that fetch the adress 
+   // make search by id function that fetch the name 
 };
 
 
