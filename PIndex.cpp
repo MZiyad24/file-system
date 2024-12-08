@@ -65,10 +65,10 @@ vector<pair<char*, int>> PIndex::get_app_idx()
 }
 
 void PIndex::add_doctor(char* id , int offset) {
-    doc_idx.emplace_back(make_pair(id, offset));
-    sort(doc_idx.begin(), doc_idx.end(), [](const pair<char*, int>& a, const pair<char*, int>& b) {
-        return strcmp(a.first, b.first) < 0;
-    });
+    char * ID = new char [15];
+    strcpy(ID,id);
+    doc_idx.emplace_back(make_pair(ID, offset));
+    sort(doc_idx.begin(), doc_idx.end());
     save();
 }
 
@@ -271,6 +271,4 @@ int PIndex::search_appointment(const char *id)
 }
 
 PIndex::~PIndex(){
-    if(file.is_open())this->file.close();
-    if(file2.is_open())this->file2.close();
 }

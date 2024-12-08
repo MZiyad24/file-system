@@ -22,7 +22,7 @@ private:
     char address[30];
     int length_indicator;
     char* offset;
-    fstream file;
+    fstream Dfile;
     PIndex px;
     SIndex sx;
     App app;
