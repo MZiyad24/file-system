@@ -29,11 +29,14 @@ void QueryHandler::handle(const string &query) {
         string doctorName = extractValue(query, "Doctor Name");
         char* doctorName_cstr = doctorName.c_str();
         //doctor.search_byName(doctorName_cstr);
+    }else if (query.find("Select all from Appointments where Appointment ID") != string::npos) {
+        string AppointmentID = extractValue(query, "Appointment ID");
+        char* AppointmentID_cstr = AppointmentID.c_str();
+        // appointment.search_by_AppId(AppointmentID_cstr);
     }else if (query.find("Select all from Appointments where Doctor ID") != string::npos) {
         string doctorID = extractValue(query, "Doctor ID");
         char* doctorID_cstr = doctorID.c_str();
         // appointment.search_by_docId(doctorID_cstr);
-
 
     } else if (query.find("Select Doctor Name from Doctors where Doctor ID") != string::npos) {
         string doctorID = extractValue(query, "Doctor ID");
