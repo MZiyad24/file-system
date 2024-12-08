@@ -326,29 +326,45 @@ void App::update_appDate(char* appId,char* newDate) {
 //    outFile.close();
 }
 
-void App::print (){
-    /*
-    * loop the vector and print all the appointment data
-    * */
-    file.open("appointment.txt",ios::in);
-    assert(file.is_open());
-    file.seekg(0,ios::end);
-    char* length;
-    if(file.tellg()!=-1)
-    {
-        while(file.good())
-        {
-            file.getline(length,'|');
-            file.getline(id,'|');
-            file.getline(date,'|');
-            file.getline(doctor_id,'|');
-            cout<<"Appointment ID: "<<id<<" "
-                <<"Date: "<<date <<" "
-                <<"Doctor ID: "<<doctor_id<<"\n";
+void App::print() {
+
+    ifstream file("appointment.txt");
+    if (!file.is_open()) {
+        cerr << "Error: Unable to open appointment.txt file\n";
+        return;
+    }
+
+    string line;
+    while (getline(file, line)) {
+        vector<string> fields = split(line, '|');
+        if (fields.size() == 4) {
+            cout << "Appointment ID: " << fields[1]
+                 << " Date: " << fields[2]
+                 << " Doctor: " << fields[3] << "\n";
+        } else {
+            cerr << "Error: Malformed line: " << line << "\n";
         }
     }
-    else
-        cout<<"no appointment to show\n";
+
+    if (file.eof()) {
+        cout << "All appointments displayed.\n";
+    } else if (file.fail()) {
+        cerr << "Error: Read failure.\n";
+    }
+
+    file.close();
+}
+
+vector<string> App::split(const string& str, char delimiter) {
+    vector<string> tokens;
+    stringstream ss(str);
+    string token;
+
+    while (getline(ss, token, delimiter)) {
+        tokens.push_back(token);
+    }
+
+    return tokens;
 }
 
 void App::search(char * id)
@@ -385,7 +401,7 @@ int App::calc(){
             } else {
                 //px.update_doctor((char *) &id, currentOffset);
             }
-            currentOffset += rowLength;
+            currentOffset += rowLength+4;
         }
         file.close();
         return currentOffset-rowLength;

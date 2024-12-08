@@ -88,8 +88,6 @@ public:
             //Delete Doctor (Doctor ID)
             break;
         case 7:
-            cout<<"enter the doctor's id: ";
-            cin>> doctor_id;
             doctor.print();
             //Print Doctor Info (Doctor ID)
             break;

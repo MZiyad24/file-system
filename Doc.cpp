@@ -16,7 +16,7 @@ void Doc::add(char* id, char * name, char* address){
         return;
     }
     int offset = avl.get();
-        int size = strlen(id)+ strlen(name) + strlen(address);
+        int size = strlen(id)+ strlen(name) + strlen(address)+4;
         string ssize = to_string(size);
         sx.addNewDoctor(name, id);
         if (offset == -1) {
@@ -131,32 +131,47 @@ void Doc::updata_docName(char* ID,char* newname) {
  
 }
 
-void Doc::print(){
-    /*
-     * loop the vector and print all the doctor data
-     * */
-    Dfile.open("doctor.txt",ios::in);
-    assert(Dfile.is_open());
-    Dfile.seekg(0,ios::end);
-    char* length;
-    if(Dfile.tellg()!=-1)
-    {
-        while(Dfile.good())
-        {
-            Dfile.getline(length,'|');
-            Dfile.getline(id,'|');
-            Dfile.getline(name,'|');
-            Dfile.getline(address,'|');
-            cout<<"Doctor ID: "<<id<<" "
-                <<"Name: "<<name <<" "
-                <<"Address ID: "<<address<<"\n";
-        }
-        
+void Doc::print() {
+
+    ifstream Dfile("doctor.txt");
+    if (!Dfile.is_open()) {
+        cerr << "Error: Unable to open doctor.txt file\n";
+        return;
     }
-    else
-        cout<<"no Doctors to show\n";
+
+    string line;
+    while (getline(Dfile, line)) {
+        vector<string> fields = split(line, '|');
+        if (fields.size() == 4) {
+            cout << "Doctor ID: " << fields[1]
+                      << " Name: " << fields[2]
+                      << " Address: " << fields[3] << "\n";
+        } else {
+            cerr << "Error: Malformed line: " << line << "\n";
+        }
+    }
+
+    if (Dfile.eof()) {
+        cout << "All doctors displayed.\n";
+    } else if (Dfile.fail()) {
+        cerr << "Error: Read failure.\n";
+    }
+
     Dfile.close();
 }
+
+vector<string> Doc::split(const string& str, char delimiter) {
+    vector<string> tokens;
+    stringstream ss(str);
+    string token;
+
+    while (getline(ss, token, delimiter)) {
+        tokens.push_back(token);
+    }
+
+    return tokens;
+}
+
 
 void Doc::search(char * name)
 {

@@ -37,6 +37,7 @@ public:
     void Delete(char* id);
     void updata_docName(char* ID, char* newname);
     void print();
+    vector<string> split(const string& str, char delimiter);
     void search(char* id);// edit this to fitch the record
     // make search by name function that fetch the record 
     // make search by id function that fetch the adress 

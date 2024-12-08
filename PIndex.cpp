@@ -81,7 +81,10 @@ void PIndex::add_doctor(char* id , int offset) {
     char * ID = new char [15];
     strcpy(ID,id);
     doc_idx.emplace_back(make_pair(ID, offset));
-    sort(doc_idx.begin(), doc_idx.end());
+
+    sort(doc_idx.begin(), doc_idx.end(), [](const pair<char*, int>& a, const pair<char*, int>& b) {
+        return strcmp(a.first, b.first) < 0;
+    });
     save();
 }
 
