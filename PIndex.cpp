@@ -42,17 +42,17 @@ void PIndex::loadFile(string name){
     }
 }
 
-void PIndex::save(){  // don't forget using this after each function
+void PIndex::save(){
     
     
-    if(!doc_idx.empty()) {
+//    if(!doc_idx.empty()) {
         file.open("doctor_primary_index.txt",ios::out);
         for (auto &entry: doc_idx) {
             string id = entry.first;
             file << id << '|' << entry.second << "\n";
         }
         file.close();
-    }
+    //}
     
     if(!app_idx.empty()) {
         file2.open("appointment_primary_index.txt",ios::out);
@@ -107,7 +107,6 @@ char* PIndex::delete_doctor(char* id)  // returning offset as char *
     {
         for (auto it = doc_idx.begin(); it != doc_idx.end(); ++it) {
             if (strcmp(it->first, id) == 0) {
-                delete[] it->first;
                 doc_idx.erase(it);
                 break;
             }
@@ -176,7 +175,7 @@ void PIndex::print_app(){
         cout<<"Doctor's ID: "<<entry.first
             <<" Offset: "<<entry.second<<"\n";
     }
-};
+}
 
 int PIndex::search_doctor(const char *id)  // returning offset as int
 {
@@ -208,55 +207,55 @@ int PIndex::search_doctor(const char *id)  // returning offset as int
     return -1;
 }
 
-void PIndex::update_doctor(char *id, int offset) {
-    int start = 0; // binary search
-    int end = doc_idx.size() - 1;
-    
-    while (start <= end)
-    {
-        int mid = (start + end) / 2;
-        
-        if (strcmp(doc_idx[mid].first, id) == 0)
-        {
-            doc_idx[mid].second = offset; // offset
-            return;
-        }
-        else if (strcmp(doc_idx[mid].first, id) < 0)
-        {
-            start = mid + 1;
-        }
-        else
-        {
-            end = mid - 1;
-        }
-    }
-    
-}
+//void PIndex::update_doctor(char *id, int offset) {
+//    int start = 0; // binary search
+//    int end = doc_idx.size() - 1;
+//
+//    while (start <= end)
+//    {
+//        int mid = (start + end) / 2;
+//
+//        if (strcmp(doc_idx[mid].first, id) == 0)
+//        {
+//            doc_idx[mid].second = offset; // offset
+//            return;
+//        }
+//        else if (strcmp(doc_idx[mid].first, id) < 0)
+//        {
+//            start = mid + 1;
+//        }
+//        else
+//        {
+//            end = mid - 1;
+//        }
+//    }
+//
+//}
 
-void PIndex::update_appointment(char *id, int offset) {
-    int start = 0; // binary search
-    int end = app_idx.size() - 1;
-    
-    while (start <= end)
-    {
-        int mid = (start + end) / 2;
-        
-        if (strcmp(app_idx[mid].first, id) == 0)
-        {
-            app_idx[mid].second = offset; // offset
-            return;
-        }
-        else if (strcmp(app_idx[mid].first, id) < 0)
-        {
-            start = mid + 1;
-        }
-        else
-        {
-            end = mid - 1;
-        }
-    }
-    
-}
+//void PIndex::update_appointment(char *id, int offset) {
+//    int start = 0; // binary search
+//    int end = app_idx.size() - 1;
+//
+//    while (start <= end)
+//    {
+//        int mid = (start + end) / 2;
+//
+//        if (strcmp(app_idx[mid].first, id) == 0)
+//        {
+//            app_idx[mid].second = offset; // offset
+//            return;
+//        }
+//        else if (strcmp(app_idx[mid].first, id) < 0)
+//        {
+//            start = mid + 1;
+//        }
+//        else
+//        {
+//            end = mid - 1;
+//        }
+//    }
+//
+//}
 
 int PIndex::search_appointment(const char *id)
 {

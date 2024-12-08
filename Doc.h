@@ -31,7 +31,7 @@ private:
 
 public:
     Doc(const string& prim_filename = "doctor_primary_index.txt", const string& sec_filename = "doctor_secondary_index.txt");
-    
+    void search_byId(char * id);
     int calc();
     void add(char* id, char* name, char* address);
     void Delete(char* id);

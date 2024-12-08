@@ -1,6 +1,3 @@
-//
-// Created by mziya on 12/6/2024.
-//
 #include "Doc.h"
 #include "bits/stdc++.h"
 using namespace std;
@@ -8,6 +5,7 @@ using namespace std;
 Doc::Doc(const string& prim_Dfilename, const string& sec_Dfilename) : px(), sx() {}
 
 void Doc::add(char* id, char * name, char* address){
+    calc();
     int check = px.search_doctor(id);
     if(check!= -1)
     {
@@ -16,7 +14,7 @@ void Doc::add(char* id, char * name, char* address){
         return;
     }
     int offset = avl.get();
-        int size = strlen(id)+ strlen(name) + strlen(address)+4;
+        int size = strlen(id)+ strlen(name) + strlen(address)+3+sizeof(int);
         string ssize = to_string(size);
         sx.addNewDoctor(name, id);
         if (offset == -1) {
@@ -31,36 +29,36 @@ void Doc::add(char* id, char * name, char* address){
         }
         else
         {
-            Dfile.open("doctor.txt",ios::in|ios::out|ios::app);
-            //px.add_doctor(id,offset);
-            Dfile.seekp(offset,ios::beg);
-            Dfile << size << '|' << id <<'|' << name << '|' <<address <<"\n";
+            Dfile.open("doctor.txt",ios::in|ios::out);
+            Dfile.seekg(offset,ios::beg);
+            string lng="";
+            getline(Dfile,lng);
+            vector<string>row=split(lng,'|');
+            //Dfile.read((char*)&lng,sizeof(int));
+            if(size> stoi(row[0]))
+            {
+                cout<<"The entered record's size is too large to fit the deleted one \n";
+                string iddd = id;
+                string Name = name;
+                string Address = address;
+                Dfile << size << "|" << iddd << "|" << Name << "|"<<Address<<"\n";
+                Dfile.close();
+                px.add_doctor(id, calc());
+            }
+            else {
+                int diff = stoi(row[0])-size;
+                string s ="";
+                for(int i =0 ;i<diff ; i++)
+                {
+                    s+=' ';
+                }
+                px.add_doctor(id,offset);
+                Dfile.seekp(offset,ios::beg);
+                Dfile << size << '|' << id << '|' << name << '|' << address << s << "\n";
+            }
             Dfile.close();
         }
-    
-    //Dfile.close();
-    
-    
-    /*
-     * Check data size integrity
-     * Check AVAIL list
-     * if(true)
-     * {
-     *      get the offset from AVAIL
-     *      search for the offset
-     *      add the data in that offset location in the vector
-     *      calculate the new offsets
-     * }
-     * else
-     * {
-     *      get offset from data Dfile
-     *      add doctor to doctor vector
-     *
-     * }
-     *      save Dfile
-     *      add doctor to primary index
-     *      add doctor to secondary index
-     * */
+        
 }
 
 void Doc::Delete(char * id){
@@ -68,52 +66,63 @@ void Doc::Delete(char * id){
     strcpy(offset,px.delete_doctor(id));
     if(strcmp(offset,"-1") !=0)
     {
-        Dfile.open("doctor.txt",ios::app);
+        Dfile.open("doctor.txt",ios::in | ios::out);
         if(Dfile.is_open())
         {
-            Dfile.seekg(stoi(string(offset)),ios::beg);
-            Dfile.getline(this->id,'|');
-            Dfile.seekp(Dfile.tellg(),ios::beg);
-            Dfile << "deleted";
-            Dfile.getline(this->id,'|');
-            Dfile.getline(name,'|');
-
-            sx.delete_doctor_name(name,id);
-            avl.add(stoi(string(offset)));
+            string temp = offset;
+            int ser;
+            stringstream ss(temp);
+            ss >> ser;
+            Dfile.seekg(ser, ios::beg);
+            string line;
+            getline(Dfile, line);
+    
+            vector<string>row=split(line,'|');
+            
+            string ID = row[1];
+            string NAME = row[2];
+            string ADDRESS = row[3];
+            string LENGTH = row[0];
+            int len = strlen("*") + (int)NAME.size()+ (int)ADDRESS.size()+3+sizeof(int);
+            Dfile.seekp(ser, ios::beg);
+            Dfile << len << '|' <<"*" <<'|'<< NAME <<'|'<< ADDRESS << "\n";
+            Dfile.close();
+            sx.delete_doctor_name(NAME, id);
+            avl.add(ser);
             app.Delete_by_Doctor(id);
         }
-        assert(Dfile.is_open());
-        Dfile.close();
+        
     }
 
 }
 
 void Doc::updata_docName(char* ID,char* newname) {
-    /*
-     * search by id for the old name
-     * change name
-     * calc offset
-     * change px
-     * change sx
-     * */
+     //  we made some changes
     int offset=px.search_doctor(ID);
-    Dfile.open("doctor.txt",ios::in | ios::out | ios::trunc);
-    assert(Dfile.is_open());
+    Dfile.open("doctor.txt",ios::in | ios::out );
     if(Dfile.is_open())
     {
         Dfile.seekg(offset,ios::beg);
-        char* length;
-        Dfile.getline(length,'|');
-        Dfile.getline(id,'|');
-        int pos = Dfile.tellg();
-        Dfile.getline(name,'|');
-        Dfile.seekp(pos,ios::beg);
-        Dfile << newname;
-        
-        int newOffset = calc();
-        px.update_doctor(ID,newOffset);
-        sx.updateDoctorName(string(ID),string(newname),string(name));
-        calc();
+        string line = "";
+        getline(Dfile,line);
+        vector<string> lines = split(line,'|');
+        int length ;
+        stringstream ss(lines[2]) ;
+        ss>>length;
+        if(strlen(newname) > (int)lines[2].size())
+        {
+            cout<<"cannot update with a name with that size! \n";
+            return;
+        }
+        int diff = lines[2].size() - strlen(newname);
+        string s ="";
+        for(int i =0 ;i<diff ; i++)
+        {
+            s+=' ';
+        }
+        Dfile.seekp(offset+sizeof(int)+(int)lines[1].size(),ios::beg);
+        Dfile << newname << s ;
+        sx.updateDoctorName(string(ID),string(name),string(newname));
     }
     Dfile.close();
  
@@ -160,12 +169,18 @@ vector<string> Doc::split(const string& str, char delimiter) {
     return tokens;
 }
 
+void Doc::search_byId(char * id){
+    int off=px.search_doctor(id);
+    Dfile.open("doctor.txt",ios::in|ios::out);
+    Dfile.seekg(off,ios::beg);
+    string lin ="";
+    getline(Dfile,lin);
+    vector<string>line = split(lin,'|');
+    cout<<"the doctor with the id of "<<id<<"is: "<<line[2]<<" with address of: "<<line[3]<<"\n";
+}
 
 void Doc::search(char * name)
 {
-    /*
-     *  Binary search the vector for the id and print the doctor info
-     * */
     vector<string>ans;
     ans=sx.search_by_doctor_name(name);
     cout<<"The IDs associated with the name "<<name<<"are: \n";
@@ -191,7 +206,7 @@ int Doc::calc() {
             getline(stream, tempLength, '|');
             stringstream (tempLength)>>rowLength;
             getline(stream, id, '|');
-            if (id == "deleted") {
+            if (id == "*") {
                 avl.add(currentOffset);
             } else {
                 //px.update_doctor((char *) &id, currentOffset);

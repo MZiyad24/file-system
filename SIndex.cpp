@@ -135,21 +135,21 @@ void SIndex:: addNewApponitment(string DoctorId , string AppointmentId ){
     saveToFile(appointmentFile , appointmentIdx);
     
     
-} // do not forget saveToFile()
+}
 
 void SIndex::updateDoctorName(string id,string newname,string oldname) {
     vector<pair<string,vector<string>>>idxdata;
-    loadFileToVector(doctorFile, idxdata);//load the index file to vector
+    loadFileToVector(doctorFile, idxdata);
     for (auto it = idxdata.begin(); it != idxdata.end(); ++it) {
         if (it->first == oldname) {
-            if (it->second.size() == 1) { // Check if there's only one ID
+            if (it->second.size() == 1) {
                 idxdata.erase(it); // Remove the entire entry
                 break;
             } else {
-                // Loop through IDs to find and delete the specific one
+                
                 for (auto idIt = it->second.begin(); idIt != it->second.end(); ++idIt) {
                     if (*idIt == id) {
-                        it->second.erase(idIt); // Remove the ID is assosiated
+                        it->second.erase(idIt);
                         break;
                     }
                 }
@@ -165,17 +165,17 @@ void SIndex::updateDoctorName(string id,string newname,string oldname) {
     bool newnameExists = false;
     for (auto &entry: idxdata) {
         if (entry.first == newname) {
-            entry.second.push_back(id); // Add id to the existing newname
+            entry.second.push_back(id);
             newnameExists = true;
             break;
         }
     }
     
-    // if newname doesn't existit will create a new entry
+   
     if (!newnameExists) {
         idxdata.push_back({newname, {id}});
     }
-    saveToFile(doctorFile, idxdata);// save it back to doctor index file
+    saveToFile(doctorFile, idxdata);
 }
 
 vector<string> SIndex::search_by_doctor_name(const string &name)
@@ -201,7 +201,7 @@ vector<string> SIndex::search_by_doctor_name(const string &name)
             end = mid - 1;
         }
     }
-    // return vector of doctor IDs
+    
     return doctorIDs;
     
     return {};
@@ -240,7 +240,6 @@ bool SIndex::delete_doctor_name(const string &name ,const string &doctorID )
     {
         return false;
     }
-    // sequential search
     auto it = remove(matchedIDs.begin(), matchedIDs.end(), doctorID);
     matchedIDs.erase(it, matchedIDs.end());
     
@@ -251,7 +250,6 @@ bool SIndex::delete_doctor_name(const string &name ,const string &doctorID )
                               });
     idxIt->second = matchedIDs;
     
-    // sucess delete
     saveToFile(doctorFile , doctorIdx) ;
     return true;
 }
@@ -273,7 +271,6 @@ bool SIndex::delete_doctor_appointment(const string &appointmentId ,const string
                          });
     idxIt->second = matchedAppointmentIDs;
     
-    // sucess delete
     saveToFile(appointmentFile, appointmentIdx) ;
     return true;
 }
