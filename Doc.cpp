@@ -64,18 +64,6 @@ void Doc::add(char* id, char * name, char* address){
 }
 
 void Doc::Delete(char * id){
-    /*
-     * char * offset = px.delete(id);
-     * if( offset != (char*)'-1')
-     * {
-     *      search in doctor Dfile for the offset
-     *      get the name and mark as deleted
-     *      use the name and id to delete from secondary idx
-     *      add the offset to the AVAIL list
-     *      update doctor vector
-     *      call search by doctor to the appointment
-     * }
-     * */
     char * offset;
     strcpy(offset,px.delete_doctor(id));
     if(strcmp(offset,"-1") !=0)
@@ -89,7 +77,7 @@ void Doc::Delete(char * id){
             Dfile << "deleted";
             Dfile.getline(this->id,'|');
             Dfile.getline(name,'|');
-            
+
             sx.delete_doctor_name(name,id);
             avl.add(stoi(string(offset)));
             app.Delete_by_Doctor(id);
@@ -97,7 +85,7 @@ void Doc::Delete(char * id){
         assert(Dfile.is_open());
         Dfile.close();
     }
- 
+
 }
 
 void Doc::updata_docName(char* ID,char* newname) {

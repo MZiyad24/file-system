@@ -118,6 +118,7 @@ char* PIndex::delete_doctor(char* id)  // returning offset as char *
         cerr<<"doctor doesn't exist!\n";
         
     }
+    save();
     return offset;
 }
 
@@ -159,6 +160,7 @@ char* PIndex::delete_appointment(char* id)  // returning offset as char *
     {
         cerr<<"Appointment doesn't exist!\n";
     }
+    save();
     return offset;
 }
 

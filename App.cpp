@@ -11,11 +11,17 @@ App::App(const string& prim_filename, const string& sec_filename)
 
 void App::add(char* id, char * date, char* doctor_id){
     // px . search doctor
+    int doctorId = px.search_doctor(doctor_id);
+    if(doctorId == -1)
+    {
+        cout<<"Doctor Don not exists \n";
+        return;
+
+    }
     int check = px.search_appointment(id);
     if(check!= -1)
     {
         cout<<"appointment already exists!!!! \n";
-        file.close();
         return;
     }
     int offset = avl.get();

@@ -85,7 +85,6 @@ public:
             cout<<"enter the doctor's id you want to delete: ";
             cin>> doctor_id;
             doctor.Delete(doctor_id);
-            //Delete Doctor (Doctor ID)
             break;
         case 7:
             doctor.print();
