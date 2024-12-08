@@ -36,9 +36,8 @@ public:
     void update_appDate(char* appId, char* newDate);
     void print();
     void search(char* id);// edit this to fitch the record
-    // make search by doc id function that fetch the record 
-    //its better for my to make the function to return the record not print it so i can print the name
-    // in the select name query
+    // make search by Doc id  function that fetch the record 
+ 
     
     int calc();
 };
