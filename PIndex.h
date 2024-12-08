@@ -18,7 +18,7 @@ private:
     vector<pair<char*, int>> doc_idx;
     vector<pair<char*, int>> app_idx;
     
-    void loadFile();
+    void loadFile(string name);
     void save();
 public:
     PIndex();

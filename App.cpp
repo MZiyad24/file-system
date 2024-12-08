@@ -10,38 +10,68 @@ App::App(const string& prim_filename, const string& sec_filename)
         
 
 void App::add(char* id, char * date, char* doctor_id){
-    
-    int offset = px.search_doctor(doctor_id);
-    if(offset !=-1)
+    // px . search doctor
+    int check = px.search_appointment(id);
+    if(check!= -1)
     {
-        file.open("appointment.txt",ios::out|ios::trunc);
-        int check = px.search_appointment(id);
-        if(check!= -1)
-        {
-            cout<<"doctor already exists!!!! \n";
-            return;
-        }
-        int offset = avl.get();
-        if(file.is_open()) {
-            int size = sizeof(id)+sizeof(date)+sizeof(doctor_id);
-            sx.addNewApponitment(doctor_id,id);
-            if (offset == -1) {
-                px.add_appointment(id,calc());
-                file.seekp(0, ios::end);
-                file << size << '|' << id <<'|' << date << '|' <<doctor_id <<"\n";
-            }
-            else
-            {
-                px.add_appointment(id,offset);
-                file.seekp(offset,ios::beg);
-                file << size << '|' << id <<'|' << date << '|' <<doctor_id <<"\n";
-            }
-            file.close();
-        }
+        cout<<"appointment already exists!!!! \n";
+        file.close();
+        return;
     }
+    int offset = avl.get();
+    int size = strlen(id)+ strlen(date) + strlen(doctor_id);
+    string ssize = to_string(size);
+    sx.addNewApponitment(doctor_id, id);
+    if (offset == -1) {
+        file.open("appointment.txt",ios::in|ios::out|ios::app);
+        string iddd = id;
+        string Name = date;
+        string Address = doctor_id;
+        file << size << "|" << iddd << "|" << Name << "|"<<Address<<"\n";
+        file.close();
+        px.add_appointment(id, calc());
+        
+    }
+    else
+    {
+        file.open("appointment.txt",ios::in|ios::out|ios::app);
+        //px.add_doctor(id,offset);
+        file.seekp(offset,ios::beg);
+        file << size << '|' << id <<'|' << date << '|' <<doctor_id <<"\n";
+        file.close();
+    }
+
+//    int offset = px.search_doctor(doctor_id);
+//    if(offset !=-1)
+//    {
+//        file.open("appointment.txt",ios::out|ios::trunc);
+//        int check = px.search_appointment(id);
+//        if(check!= -1)
+//        {
+//            cout<<"doctor already exists!!!! \n";
+//            return;
+//        }
+//        int offset = avl.get();
+//        if(file.is_open()) {
+//            int size = sizeof(id)+sizeof(date)+sizeof(doctor_id);
+//            sx.addNewApponitment(doctor_id,id);
+//            if (offset == -1) {
+//                px.add_appointment(id,calc());
+//                file.seekp(0, ios::end);
+//                file << size << '|' << id <<'|' << date << '|' <<doctor_id <<"\n";
+//            }
+//            else
+//            {
+//                px.add_appointment(id,offset);
+//                file.seekp(offset,ios::beg);
+//                file << size << '|' << id <<'|' << date << '|' <<doctor_id <<"\n";
+//            }
+//            file.close();
+//        }
+//    }
     
     
-    
+    //---------------
 //    int doc_offset=px.search_doctor(doctor_id);
 //    if(doc_offset==-1)
 //    {
@@ -336,30 +366,28 @@ void App::search(char * id)
 }
 
 int App::calc(){
-    file.open("appointment.txt",ios::in);
+    file.open("appointment.txt" , ios::in | ios::out);
     if(file.is_open()) {
         avl.clear();
         string line;
         int currentOffset=0;
+        int rowLength=0;
         while (getline(file, line)) {
             istringstream stream(line);
             string tempLength;
             string id;
-            int rowLength = stoi(tempLength);
-            
+            rowLength=0;
             getline(stream, tempLength, '|');
+            stringstream (tempLength)>>rowLength;
             getline(stream, id, '|');
-            if(id=="deleted")
-            {
+            if (id == "deleted") {
                 avl.add(currentOffset);
-            }
-            else {
-                px.update_appointment((char *) &id, currentOffset);
+            } else {
+                //px.update_doctor((char *) &id, currentOffset);
             }
             currentOffset += rowLength;
         }
         file.close();
-        return currentOffset;
+        return currentOffset-rowLength;
     }
-    assert(file.is_open());
 }  // calculates the length indicator and offset

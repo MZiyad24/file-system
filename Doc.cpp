@@ -8,8 +8,6 @@ using namespace std;
 Doc::Doc(const string& prim_Dfilename, const string& sec_Dfilename) : px(), sx() {}
 
 void Doc::add(char* id, char * name, char* address){
-    
-    
     int check = px.search_doctor(id);
     if(check!= -1)
     {
@@ -26,21 +24,14 @@ void Doc::add(char* id, char * name, char* address){
             string iddd = id;
             string Name = name;
             string Address = address;
-            Dfile << size;
-            Dfile << "|";
-            Dfile << iddd;
-            Dfile << "|";
-            Dfile << Name;
-            Dfile << "|";
-            Dfile<<Address ;
-            Dfile<<"\n";
+            Dfile << size << "|" << iddd << "|" << Name << "|"<<Address<<"\n";
             Dfile.close();
             px.add_doctor(id, calc());
             
         }
         else
         {
-            Dfile.open("C:\\Users\\mziya\\OneDrive\\Desktop\\files-assignment\\cmake-build-debug\\doctor.txt",ios::in|ios::out|ios::app);
+            Dfile.open("doctor.txt",ios::in|ios::out|ios::app);
             //px.add_doctor(id,offset);
             Dfile.seekp(offset,ios::beg);
             Dfile << size << '|' << id <<'|' << name << '|' <<address <<"\n";

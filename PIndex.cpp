@@ -6,49 +6,62 @@
 
 using namespace std;
 
-void PIndex::loadFile(){
-    doc_idx.clear();
-    app_idx.clear();
-    file.open("doctor_primary_index.txt",ios::in);
+void PIndex::loadFile(string name){
     string line;
-    while (getline(file, line)) {
-        if((int)line.size()==0)break;
-        istringstream stream(line);
-        string key,off;
-        getline(stream, key, '|');
-        getline(stream, off, '|');
-        char * entry =  new char [key.size()+1];
-        strcpy(entry , key.c_str());
-        doc_idx.push_back({entry, stoi(off)});
+    if(name=="doctor") {
+        doc_idx.clear();
+        file.open("doctor_primary_index.txt", ios::in);
+       
+        while (getline(file, line)) {
+            if ((int) line.size() == 0)break;
+            istringstream stream(line);
+            string key, off;
+            getline(stream, key, '|');
+            getline(stream, off, '|');
+            char *entry = new char[key.size() + 1];
+            strcpy(entry, key.c_str());
+            doc_idx.push_back({entry, stoi(off)});
         
+        }
+        file.close();
     }
-    file.close();
-    file2.open("appointment_primary_index.txt",ios::in);
-    while (getline(file, line)) {
-        if((int)line.size()==0)break;
-        istringstream stream(line);
-        string key,off;
-        getline(stream, key, '|');
-        getline(stream, off, '|');
-        app_idx.push_back({(char*)&key, stoi(off)});
+    else {
+        app_idx.clear();
+        file2.open("appointment_primary_index.txt", ios::in);
+        while (getline(file2, line)) {
+            if ((int) line.size() == 0)break;
+            istringstream stream(line);
+            string key, off;
+            getline(stream, key, '|');
+            getline(stream, off, '|');
+            char *entry = new char[key.size() + 1];
+            strcpy(entry, key.c_str());
+            app_idx.push_back({entry, stoi(off)});
+        }
+        file2.close();
     }
-    file2.close();
 }
 
 void PIndex::save(){  // don't forget using this after each function
-    file.open("doctor_primary_index.txt",ios::out);
-    file2.open("appointment_primary_index.txt",ios::out);
-    for(auto&entry:doc_idx)
-    {
-        string id = entry.first;
-        file << id << '|' << entry.second <<"\n";
+    
+    
+    if(!doc_idx.empty()) {
+        file.open("doctor_primary_index.txt",ios::out);
+        for (auto &entry: doc_idx) {
+            string id = entry.first;
+            file << id << '|' << entry.second << "\n";
+        }
+        file.close();
     }
-    file.close();
-    for(auto&entry:app_idx)
-    {
-        file2 << entry.first << '|' <<entry.second <<"\n";
+    
+    if(!app_idx.empty()) {
+        file2.open("appointment_primary_index.txt",ios::out);
+        for (auto &entry: app_idx) {
+            file2 << entry.first << '|' << entry.second << "\n";
+        }
+        file2.close();
     }
-    file2.close();
+    
     
 }
 
@@ -73,10 +86,6 @@ void PIndex::add_doctor(char* id , int offset) {
 }
 
 void PIndex::add_appointment(char* id, int offset) {
-    if (search_appointment(id) != -1){
-        cout << "Appointment Found";
-        return;
-    }
     app_idx.emplace_back(make_pair(id, offset));
     sort(app_idx.begin(), app_idx.end(), [](const pair<char*, int>& a, const pair<char*, int>& b) {
         return strcmp(a.first, b.first) < 0;
@@ -166,7 +175,7 @@ void PIndex::print_app(){
 
 int PIndex::search_doctor(const char *id)  // returning offset as int
 {
-    loadFile();
+    loadFile("doctor");
     if((int)doc_idx.size()==0)
     {
         return -1;
@@ -246,7 +255,12 @@ void PIndex::update_appointment(char *id, int offset) {
 
 int PIndex::search_appointment(const char *id)
 {
-    int start = 0;
+    loadFile("app");
+    if((int)app_idx.size()==0)
+    {
+        return -1;
+    }
+    int start = 0; // binary search
     int end = app_idx.size() - 1;
     
     while (start <= end)
@@ -255,7 +269,7 @@ int PIndex::search_appointment(const char *id)
         
         if (strcmp(app_idx[mid].first, id) == 0)
         {
-            return app_idx[mid].second; //  offset
+            return app_idx[mid].second; // offset
         }
         else if (strcmp(app_idx[mid].first, id) < 0)
         {
@@ -266,7 +280,6 @@ int PIndex::search_appointment(const char *id)
             end = mid - 1;
         }
     }
-    
     return -1;
 }
 
