@@ -2,7 +2,7 @@
 #include "bits/stdc++.h"
 using namespace std;
 
-Doc::Doc(const string& prim_Dfilename, const string& sec_Dfilename) : px(), sx() {}
+Doc::Doc(const string& prim_Dfilename, const string& sec_Dfilename){}
 
 void Doc::add(char* id, char * name, char* address){
     calc();
@@ -62,7 +62,7 @@ void Doc::add(char* id, char * name, char* address){
 }
 
 void Doc::Delete(char * id){
-    char * offset;
+    char * offset = new char [ 15 ];
     strcpy(offset,px.delete_doctor(id));
     if(strcmp(offset,"-1") !=0)
     {
@@ -91,7 +91,7 @@ void Doc::Delete(char * id){
             avl.add(ser);
             app.Delete_by_Doctor(id);
         }
-        
+        delete [] offset;
     }
 
 }

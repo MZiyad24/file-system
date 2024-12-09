@@ -1,2 +1,1 @@
-17|1|ziyad|mohd
-20|2|mohammed|awad
+17|*|ziyad|mohd

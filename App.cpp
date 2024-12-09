@@ -5,8 +5,7 @@
 #include "bits/stdc++.h"
 using namespace std;
 
-App::App(const string& prim_filename, const string& sec_filename)
-        : px(), sx() {}
+App::App(const string& prim_filename, const string& sec_filename){}
         
 
 void App::add(char* id, char * date, char* doctor_id){
@@ -70,28 +69,35 @@ void App::add(char* id, char * date, char* doctor_id){
 }
 
 void App::Delete(char* id){
-    
-    char * offset;
+    char * offset = new char [ 15 ];
     strcpy(offset,px.delete_appointment(id));
     if(strcmp(offset,"-1") !=0)
     {
-        file.open("appointment.txt",ios::in | ios::out | ios::trunc);
+        file.open("appointment.txt",ios::in | ios::out);
         if(file.is_open())
         {
-            file.seekg(stoi(string(offset)),ios::beg);
-            file.getline(this->id,'|');
-            file.seekp(file.tellg(),ios::beg);
-            file << "deleted";
-            file.getline(this->id,'|');
-            file.getline(date,'|');
-            
-            sx.delete_doctor_appointment(id,doctor_id);
-            avl.add(stoi(string(offset)));
+            string temp = offset;
+            int ser;
+            stringstream ss(temp);
+            ss >> ser;
+            file.seekg(ser, ios::beg);
+            string line;
+            getline(file, line);
+            vector<string>row=split(line,'|');
+            string ID = row[1];
+            string DATE = row[2];
+            string DOC_ID = row[3];
+            string LENGTH = row[0];
+            int len = strlen("*") + (int)DATE.size()+ (int)DOC_ID.size()+3+sizeof(int);
+            file.seekp(ser, ios::beg);
+            file << len << '|' <<"*" <<'|'<< DATE <<'|'<< DOC_ID;
             file.close();
+            sx.delete_doctor_appointment( id,DOC_ID);
+            avl.add(ser);
         }
-        assert(file.is_open());
+        delete [] offset;
     }
-
+    
 }
 
 void App::Delete_by_Doctor(char*doctor_id){
@@ -99,9 +105,9 @@ void App::Delete_by_Doctor(char*doctor_id){
     apIDs=sx.search_by_doctor_id(doctor_id);
     if((int)apIDs.size()>0)
     {
-        for(const auto &entry:apIDs)
+        for(auto entry:apIDs)
         {
-            Delete((char*)&entry);
+            Delete(entry.data());
         }
     }
 }

@@ -42,26 +42,25 @@ void PIndex::loadFile(string name){
     }
 }
 
-void PIndex::save(){
+void PIndex::save(string filename){
     
     
 //    if(!doc_idx.empty()) {
-        file.open("doctor_primary_index.txt",ios::out);
-        for (auto &entry: doc_idx) {
-            string id = entry.first;
-            file << id << '|' << entry.second << "\n";
+        file.open(filename,ios::out);
+        if(filename == "doctor_primary_index.txt") {
+            for (auto &entry: doc_idx) {
+                string id = entry.first;
+                file << id << '|' << entry.second << "\n";
+            }
+        }
+        else{
+            for (auto &entry: app_idx) {
+                string id = entry.first;
+                file << id << '|' << entry.second << "\n";
+            }
         }
         file.close();
     //}
-    
-    if(!app_idx.empty()) {
-        file2.open("appointment_primary_index.txt",ios::out);
-        for (auto &entry: app_idx) {
-            file2 << entry.first << '|' << entry.second << "\n";
-        }
-        file2.close();
-    }
-    
     
 }
 
@@ -85,7 +84,7 @@ void PIndex::add_doctor(char* id , int offset) {
     sort(doc_idx.begin(), doc_idx.end(), [](const pair<char*, int>& a, const pair<char*, int>& b) {
         return strcmp(a.first, b.first) < 0;
     });
-    save();
+    save("doctor_primary_index.txt");
 }
 
 void PIndex::add_appointment(char* id, int offset) {
@@ -93,14 +92,14 @@ void PIndex::add_appointment(char* id, int offset) {
     sort(app_idx.begin(), app_idx.end(), [](const pair<char*, int>& a, const pair<char*, int>& b) {
         return strcmp(a.first, b.first) < 0;
     });
-    save();
+    save("appointment_primary_index.txt");
 }
 
 char* PIndex::delete_doctor(char* id)  // returning offset as char *
 {
-    int awad = search_doctor(id);
+    int temp = search_doctor(id);
     char* offset = new char [ 15 ];
-    string zft = to_string(awad);
+    string zft = to_string(temp);
     strcpy(offset, zft.c_str());
     auto err = NULL;
     if( offset!=(char*)&err)
@@ -117,14 +116,17 @@ char* PIndex::delete_doctor(char* id)  // returning offset as char *
         cerr<<"doctor doesn't exist!\n";
         
     }
-    save();
+    save("doctor_primary_index.txt");
     return offset;
 }
 
 char* PIndex::delete_appointment(char* id)  // returning offset as char *
 {
-    char* offset = reinterpret_cast<char*>(search_appointment(id));
-    string err = "-1";
+    int temp = search_appointment(id);
+    char* offset = new char [ 15 ];
+    string zft = to_string(temp);
+    strcpy(offset, zft.c_str());
+    auto err = NULL;
     if( offset!=(char*)&err)
     {
         int start = 0; // binary search
@@ -142,7 +144,7 @@ char* PIndex::delete_appointment(char* id)  // returning offset as char *
                     sort(app_idx.begin(),app_idx.end());
                 }
                 app_idx.pop_back();
-                save();
+                save("appointment_primary_index.txt");
                 return offset;
             }
             else if (strcmp(app_idx[mid].first, id) < 0)
@@ -159,7 +161,7 @@ char* PIndex::delete_appointment(char* id)  // returning offset as char *
     {
         cerr<<"Appointment doesn't exist!\n";
     }
-    save();
+    save("appointment_primary_index.txt");
     return offset;
 }
 

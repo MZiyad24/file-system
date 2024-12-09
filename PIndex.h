@@ -19,7 +19,7 @@ private:
     vector<pair<char*, int>> app_idx;
     
     void loadFile(string name);
-    void save();
+    void save(string filename);
 public:
     PIndex();
     vector<pair<char*, int>> get_doc_idx();
