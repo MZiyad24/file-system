@@ -122,7 +122,8 @@ void Doc::updata_docName(char* ID,char* newname) {
         }
         Dfile.seekp(offset+sizeof(int)+(int)lines[1].size(),ios::beg);
         Dfile << newname << s ;
-        sx.updateDoctorName(string(ID),string(name),string(newname));
+        string n = lines[2];
+        sx.updateDoctorName(string(ID),string(newname),n);
     }
     Dfile.close();
  
