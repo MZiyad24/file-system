@@ -169,14 +169,14 @@ vector<string> Doc::split(const string& str, char delimiter) {
     return tokens;
 }
 
-void Doc::search_byId(char * id){
+void Doc::search_byId(const char * id){
     int off=px.search_doctor(id);
     Dfile.open("doctor.txt",ios::in|ios::out);
     Dfile.seekg(off,ios::beg);
     string lin ="";
     getline(Dfile,lin);
     vector<string>line = split(lin,'|');
-    cout<<"the doctor with the id of "<<id<<"is: "<<line[2]<<" with address of: "<<line[3]<<"\n";
+    cout<<"Doctor id : "<<id<<"  Doctor Name : "<<line[2]<<"  Doctor Address : "<<line[3]<<"\n";
 }
 
 void Doc::search(char * name)
@@ -189,6 +189,47 @@ void Doc::search(char * name)
     }
     cout<<"\n";
     
+}
+
+void Doc::search_byName(const char * name)
+{
+    vector<string>ans;
+    ans=sx.search_by_doctor_name(name);
+    for(auto&entry: ans){
+        const char* name_cstr = entry.c_str();
+        int off=px.search_doctor(name_cstr);
+        Dfile.open("doctor.txt",ios::in|ios::out);
+        Dfile.seekg(off,ios::beg);
+        string lin ="";
+        getline(Dfile,lin);
+        vector<string>line = split(lin,'|');
+        cout<<"Doctor id : "<<line[1]<<"  Doctor Name : "<<line[2]<<"  Doctor Address : "<<line[3]<<"\n";
+        Dfile.close();
+    }
+    cout<<"\n";
+    
+}
+
+void Doc::getName_byId(const char *id) {
+    int off=px.search_doctor(id);
+    Dfile.open("doctor.txt",ios::in|ios::out);
+    Dfile.seekg(off,ios::beg);
+    string lin ="";
+    getline(Dfile,lin);
+    vector<string>line = split(lin,'|');
+    cout<<"the Doctor Name : "<<line[2]<<"\n";
+    Dfile.close();
+}
+
+void Doc::getAdress_byId(const char *id) {
+    int off=px.search_doctor(id);
+    Dfile.open("doctor.txt",ios::in|ios::out);
+    Dfile.seekg(off,ios::beg);
+    string lin ="";
+    getline(Dfile,lin);
+    vector<string>line = split(lin,'|');
+    cout<<"the Doctor Address : "<<line[3]<<"\n";
+    Dfile.close();
 }
 
 int Doc::calc() {

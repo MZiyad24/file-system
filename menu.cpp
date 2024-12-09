@@ -6,7 +6,7 @@
 using namespace std;
 class Menu{
 public:
-       // QueryHandler queryHandler;
+        QueryHandler queryHandler;
        Doc doctor;
        App app;
        Menu(){
@@ -91,15 +91,19 @@ public:
             //Print Doctor Info (Doctor ID)
             break;
         case 8:
-            cout<<"enter the appointment's id: ";
-            cin>> appointment_id;
             app.print();
             //Print Appointment Info (Appointment ID)
             break;
         case 9:
             cout<<"enter your query: ";
+            cin.ignore();
             getline(cin, query);
-            //queryHandler.handle(query);
+            for(auto&entry : query)
+            {
+                entry=tolower(entry);
+            }
+            queryHandler.handle(query);
+            //Select all from Doctors where Doctor ID='1'
             break;
         case 0:
             flag=false;

@@ -178,6 +178,46 @@ void App::search(char * id)
     cout<<"\n";
 }
 
+void App::search_by_docId(const char *id) {
+    vector<string>ans;
+    ans=sx.search_by_doctor_id(id);
+    for(auto&entry: ans){
+        const char* DocId_cstr = entry.c_str();
+        int off=px.search_appointment(DocId_cstr);
+        file.open("appointment.txt",ios::in|ios::out);
+        file.seekg(off,ios::beg);
+        string lin ="";
+        getline(file,lin);
+        vector<string>line = split(lin,'|');
+        cout<<"Appointment ID : "<<line[1]<<"   Appointment Date : "<<line[2]<<"   Doctor ID : "<<line[3]<<"\n";
+        file.close();
+    }
+    cout<<"\n";
+}
+
+void App::search_byAppId(const char * id)
+{
+    int off=px.search_appointment(id);
+    file.open("appointment.txt",ios::in|ios::out);
+    file.seekg(off,ios::beg);
+    string lin ="";
+    getline(file,lin);
+    vector<string>line = split(lin,'|');
+    cout<<"Appointment ID : "<<line[1]<<"   Appointment Date : "<<line[2]<<"   Doctor ID : "<<line[3]<<"\n";
+    file.close();
+}
+
+void App::search_byDate(const char *id) {
+    int off=px.search_appointment(id);
+    file.open("appointment.txt",ios::in|ios::out);
+    file.seekg(off,ios::beg);
+    string lin ="";
+    getline(file,lin);
+    vector<string>line = split(lin,'|');
+    cout<<"Appointment Date : "<<line[2]<<"\n";
+    file.close();
+}
+
 int App::calc(){
     file.open("appointment.txt" , ios::in | ios::out);
     if(file.is_open()) {

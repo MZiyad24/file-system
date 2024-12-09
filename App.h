@@ -35,6 +35,9 @@ public:
     void Delete_by_Doctor(char* doctor_id);
     void update_appDate(char* appId, char* newDate);
     void print();
+    void search_by_docId(const char *id);
+    void search_byAppId(const char * id);
+    void search_byDate(const char * id);
     vector<string> split(const string& str, char delimiter);
     void search(char* id);// edit this to fitch the record
     // make search by Doc id  function that fetch the record 

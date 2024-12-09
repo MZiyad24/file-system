@@ -91,6 +91,12 @@ build CMakeFiles/files_assignment.dir/App.cpp.obj: CXX_COMPILER__files_assignmen
   OBJECT_DIR = CMakeFiles\files_assignment.dir
   OBJECT_FILE_DIR = CMakeFiles\files_assignment.dir
 
+build CMakeFiles/files_assignment.dir/QueryHandler.cpp.obj: CXX_COMPILER__files_assignment_Debug C$:/Users/mziya/OneDrive/Desktop/files-assignment/QueryHandler.cpp || cmake_object_order_depends_target_files_assignment
+  DEP_FILE = CMakeFiles\files_assignment.dir\QueryHandler.cpp.obj.d
+  FLAGS = -g -std=gnu++23
+  OBJECT_DIR = CMakeFiles\files_assignment.dir
+  OBJECT_FILE_DIR = CMakeFiles\files_assignment.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target files_assignment
@@ -99,7 +105,7 @@ build CMakeFiles/files_assignment.dir/App.cpp.obj: CXX_COMPILER__files_assignmen
 #############################################
 # Link the executable files_assignment.exe
 
-build files_assignment.exe: CXX_EXECUTABLE_LINKER__files_assignment_Debug CMakeFiles/files_assignment.dir/main.cpp.obj CMakeFiles/files_assignment.dir/menu.cpp.obj CMakeFiles/files_assignment.dir/AvaiList.cpp.obj CMakeFiles/files_assignment.dir/PIndex.cpp.obj CMakeFiles/files_assignment.dir/SIndex.cpp.obj CMakeFiles/files_assignment.dir/Doc.cpp.obj CMakeFiles/files_assignment.dir/App.cpp.obj
+build files_assignment.exe: CXX_EXECUTABLE_LINKER__files_assignment_Debug CMakeFiles/files_assignment.dir/main.cpp.obj CMakeFiles/files_assignment.dir/menu.cpp.obj CMakeFiles/files_assignment.dir/AvaiList.cpp.obj CMakeFiles/files_assignment.dir/PIndex.cpp.obj CMakeFiles/files_assignment.dir/SIndex.cpp.obj CMakeFiles/files_assignment.dir/Doc.cpp.obj CMakeFiles/files_assignment.dir/App.cpp.obj CMakeFiles/files_assignment.dir/QueryHandler.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\files_assignment.dir
